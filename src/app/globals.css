@@ -1,26 +1,232 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* ── Core palette ── */
+  --color-sage-50: #f0f5f1;
+  --color-sage-100: #dce8de;
+  --color-sage-200: #bdd4c1;
+  --color-sage-300: #96b99d;
+  --color-sage-400: #6e9b77;
+  --color-sage-500: #4d7a56;
+  --color-sage-600: #3d6245;
+  --color-sage-700: #324f39;
+  --color-sage-800: #2a3f30;
+  --color-sage-900: #233528;
+
+  --color-gold-50: #fdf9ef;
+  --color-gold-100: #f9f0d3;
+  --color-gold-200: #f2dfa5;
+  --color-gold-300: #e9c86d;
+  --color-gold-400: #e2b340;
+  --color-gold-500: #d49a28;
+  --color-gold-600: #b8781e;
+  --color-gold-700: #98591c;
+  --color-gold-800: #7d471e;
+  --color-gold-900: #683b1d;
+
+  --color-warm-50: #fafaf7;
+  --color-warm-100: #f5f4ef;
+  --color-warm-200: #e8e6dd;
+  --color-warm-300: #d5d1c4;
+  --color-warm-400: #b8b2a0;
+  --color-warm-500: #9f9785;
+  --color-warm-600: #887e6d;
+  --color-warm-700: #71685a;
+  --color-warm-800: #5e574c;
+  --color-warm-900: #4f4a42;
+
+  /* ── Semantic tokens (Light) ── */
+  --background: #fafaf7;
+  --foreground: #2a2a26;
+  --card: #ffffff;
+  --card-foreground: #2a2a26;
+  --popover: #ffffff;
+  --popover-foreground: #2a2a26;
+  --primary: #4d7a56;
+  --primary-foreground: #ffffff;
+  --secondary: #f0f5f1;
+  --secondary-foreground: #324f39;
+  --muted: #f5f4ef;
+  --muted-foreground: #71685a;
+  --accent: #d49a28;
+  --accent-foreground: #ffffff;
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
+  --border: #e8e6dd;
+  --input: #e8e6dd;
+  --ring: #4d7a56;
+  --whatsapp: #25d366;
+  --whatsapp-foreground: #ffffff;
+
+  --radius: 0.75rem;
+}
+
+.dark {
+  --background: #1a1a17;
+  --foreground: #f0ede6;
+  --card: #242420;
+  --card-foreground: #f0ede6;
+  --popover: #242420;
+  --popover-foreground: #f0ede6;
+  --primary: #6e9b77;
+  --primary-foreground: #ffffff;
+  --secondary: #2a3f30;
+  --secondary-foreground: #bdd4c1;
+  --muted: #2e2e28;
+  --muted-foreground: #9f9785;
+  --accent: #e2b340;
+  --accent-foreground: #1a1a17;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --border: #3a3a34;
+  --input: #3a3a34;
+  --ring: #6e9b77;
+  --whatsapp: #25d366;
+  --whatsapp-foreground: #ffffff;
 }
 
 @theme inline {
+  /* ── Palette ── */
+  --color-sage-50: var(--color-sage-50);
+  --color-sage-100: var(--color-sage-100);
+  --color-sage-200: var(--color-sage-200);
+  --color-sage-300: var(--color-sage-300);
+  --color-sage-400: var(--color-sage-400);
+  --color-sage-500: var(--color-sage-500);
+  --color-sage-600: var(--color-sage-600);
+  --color-sage-700: var(--color-sage-700);
+  --color-sage-800: var(--color-sage-800);
+  --color-sage-900: var(--color-sage-900);
+
+  --color-gold-50: var(--color-gold-50);
+  --color-gold-100: var(--color-gold-100);
+  --color-gold-200: var(--color-gold-200);
+  --color-gold-300: var(--color-gold-300);
+  --color-gold-400: var(--color-gold-400);
+  --color-gold-500: var(--color-gold-500);
+  --color-gold-600: var(--color-gold-600);
+  --color-gold-700: var(--color-gold-700);
+  --color-gold-800: var(--color-gold-800);
+  --color-gold-900: var(--color-gold-900);
+
+  --color-warm-50: var(--color-warm-50);
+  --color-warm-100: var(--color-warm-100);
+  --color-warm-200: var(--color-warm-200);
+  --color-warm-300: var(--color-warm-300);
+  --color-warm-400: var(--color-warm-400);
+  --color-warm-500: var(--color-warm-500);
+  --color-warm-600: var(--color-warm-600);
+  --color-warm-700: var(--color-warm-700);
+  --color-warm-800: var(--color-warm-800);
+  --color-warm-900: var(--color-warm-900);
+
+  /* ── Semantic ── */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-whatsapp: var(--whatsapp);
+  --color-whatsapp-foreground: var(--whatsapp-foreground);
+
+  /* ── Radius ── */
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  /* ── Fonts ── */
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  /* ── Animations ── */
+  --animate-shimmer: shimmer 2s infinite linear;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes shimmer-sweep {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-100% - var(--marquee-gap, 1rem)));
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+}
+
+/* ── Focus ring utility ── */
+*:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* ── Container Utilities ── */
+.container-narrow {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  max-width: 80rem; /* 1280px (max-w-7xl) */
+}
+
+@media (min-width: 640px) {
+  .container-narrow {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container-narrow {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+/* Base utility for hiding scrollbars nicely */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

@@ -1,0 +1,434 @@
+// ============================================================================
+// E-Commerce Bienestar — Prisma Schema
+// Stack: PostgreSQL (Supabase) + Prisma ORM
+// ============================================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+}
+
+// ============================================================================
+// ENUMS
+// ============================================================================
+
+enum Role {
+  ADMIN
+  DELIVERY
+  CLIENT
+}
+
+enum OrderStatus {
+  PENDIENTE
+  PAGADO
+  EN_PREPARACION
+  EN_CAMINO
+  ENTREGADO
+  CANCELADO
+}
+
+enum PaymentMethod {
+  WEB
+  WHATSAPP
+}
+
+enum DiscountType {
+  PERCENTAGE
+  FIXED
+}
+
+// ============================================================================
+// USER
+// ============================================================================
+
+model User {
+  id            String   @id @default(cuid())
+  firebaseUid   String   @unique @map("firebase_uid")   // Firebase Auth UID
+  email         String   @unique
+  name          String
+  phone         String?
+  documentId    String?  @map("document_id")            // DNI/RUC
+  address       String?
+  reference     String?                                   // Referencia de la dirección
+  districtId    String?  @map("district_id")
+  role          Role     @default(CLIENT)
+  avatarUrl     String?  @map("avatar_url")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  district      District?    @relation(fields: [districtId], references: [id])
+  orders        Order[]
+  reviews       Review[]
+  cart          Cart?
+
+  @@index([firebaseUid])
+  @@index([email])
+  @@index([role])
+  @@map("users")
+}
+
+// ============================================================================
+// CATEGORY
+// ============================================================================
+
+model Category {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  slug        String   @unique
+  description String?  @db.Text
+  imageUrl    String?  @map("image_url")
+  isActive    Boolean  @default(true) @map("is_active")
+  sortOrder   Int      @default(0) @map("sort_order")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  products    Product[]
+  seoMetadata SEO_Metadata?
+
+  @@index([slug])
+  @@index([isActive])
+  @@map("categories")
+}
+
+// ============================================================================
+// SUPPLIER
+// ============================================================================
+
+model Supplier {
+  id          String    @id @default(cuid())
+  name        String    @unique
+  contactName String?   @map("contact_name")
+  email       String?
+  phone       String?
+  isActive    Boolean   @default(true) @map("is_active")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+
+  products    Product[]
+
+  @@map("suppliers")
+}
+
+// ============================================================================
+// PRODUCT
+// ============================================================================
+
+model Product {
+  id              String   @id @default(cuid())
+  name            String
+  slug            String   @unique
+  description     String   @db.Text                      // Optimizada para Long Tail Keywords
+  shortDescription String? @map("short_description") @db.Text
+  sku             String   @unique
+  price           Decimal  @db.Decimal(10, 2)
+  compareAtPrice  Decimal? @map("compare_at_price") @db.Decimal(10, 2) // Precio tachado (descuento)
+  stock           Int      @default(0)
+  images          String[]                                // Array de URLs de imágenes
+  categoryId      String   @map("category_id")
+  supplierId      String?  @map("supplier_id")
+  isNew           Boolean  @default(false) @map("is_new")
+  isActive        Boolean  @default(true) @map("is_active")
+  isFeatured      Boolean  @default(false) @map("is_featured") // Productos estrella
+  weight          Decimal? @db.Decimal(8, 2)              // Peso en gramos (para envío)
+  tags            String[]                                 // Tags para filtros y SEO
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  category        Category     @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  supplier        Supplier?    @relation(fields: [supplierId], references: [id], onDelete: SetNull)
+  seoMetadata     SEO_Metadata?
+  orderItems      OrderItem[]
+  reviews         Review[]
+  cartItems       CartItem[]
+
+  @@index([slug])
+  @@index([categoryId])
+  @@index([isActive, isFeatured])
+  @@index([isActive, isNew])
+  @@index([sku])
+  @@index([price])
+  @@map("products")
+}
+
+// ============================================================================
+// SEO METADATA — Relacionado a Product y Category
+// ============================================================================
+
+model SEO_Metadata {
+  id              String   @id @default(cuid())
+  metaTitle       String   @map("meta_title") @db.VarChar(70)   // Máx 60-70 chars para Google
+  metaDescription String   @map("meta_description") @db.VarChar(160) // Máx 155-160 chars
+  canonicalUrl    String?  @map("canonical_url")
+  ogImage         String?  @map("og_image")                      // Open Graph image
+  keywords        String[]                                        // Intención de búsqueda local
+  jsonLd          Json?    @map("json_ld")                       // Schema Markup pre-computado
+
+  // Polymorphic relation: uno de los dos debe estar presente
+  productId       String?  @unique @map("product_id")
+  categoryId      String?  @unique @map("category_id")
+
+  product         Product?  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  category        Category? @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  @@map("seo_metadata")
+}
+
+// ============================================================================
+// SHIPPING — Zonas y Distritos
+// ============================================================================
+
+model ShippingZone {
+  id          String   @id @default(cuid())
+  name        String   @unique                           // "Zona 1 - SJM y alrededores"
+  description String?
+  cost        Decimal  @db.Decimal(10, 2)                // Costo de envío
+  minDeliveryDays Int  @default(1) @map("min_delivery_days")
+  maxDeliveryDays Int  @default(3) @map("max_delivery_days")
+  isSameDay   Boolean  @default(false) @map("is_same_day")
+  isActive    Boolean  @default(true) @map("is_active")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  districts   District[]
+
+  @@map("shipping_zones")
+}
+
+model District {
+  id             String       @id @default(cuid())
+  name           String       @unique                    // "San Juan de Miraflores"
+  shippingZoneId String       @map("shipping_zone_id")
+  isActive       Boolean      @default(true) @map("is_active")
+
+  // Relations
+  shippingZone   ShippingZone @relation(fields: [shippingZoneId], references: [id], onDelete: Restrict)
+  users          User[]
+  orders         Order[]
+
+  @@index([shippingZoneId])
+  @@map("districts")
+}
+
+// ============================================================================
+// COUPON
+// ============================================================================
+
+model Coupon {
+  id              String       @id @default(cuid())
+  code            String       @unique                    // Código del cupón (ej: BIENVENIDA10)
+  discountType    DiscountType @map("discount_type")
+  discountValue   Decimal      @map("discount_value") @db.Decimal(10, 2)
+  minOrderAmount  Decimal?     @map("min_order_amount") @db.Decimal(10, 2) // Monto mínimo
+  maxDiscount     Decimal?     @map("max_discount") @db.Decimal(10, 2)     // Tope de descuento
+  usageLimit      Int?         @map("usage_limit")        // Límite de usos totales
+  usageCount      Int          @default(0) @map("usage_count")
+  perUserLimit    Int          @default(1) @map("per_user_limit") // Usos por usuario
+  expiresAt       DateTime?    @map("expires_at")
+  isActive        Boolean      @default(true) @map("is_active")
+  createdAt       DateTime     @default(now()) @map("created_at")
+  updatedAt       DateTime     @updatedAt @map("updated_at")
+
+  // Relations
+  orders          Order[]
+
+  @@index([code])
+  @@index([isActive, expiresAt])
+  @@map("coupons")
+}
+
+// ============================================================================
+// ORDER & ORDER ITEMS
+// ============================================================================
+
+model Order {
+  id              String        @id @default(cuid())
+  orderNumber     String        @unique @map("order_number")   // Número legible: ORD-20250612-XXXX
+  userId          String        @map("user_id")
+  status          OrderStatus   @default(PENDIENTE)
+  paymentMethod   PaymentMethod @map("payment_method")
+
+  // Datos de envío (snapshot al momento de la compra)
+  shippingName    String        @map("shipping_name")
+  shippingPhone   String        @map("shipping_phone")
+  shippingDocument String?      @map("shipping_document")
+  shippingAddress String        @map("shipping_address")
+  shippingReference String?     @map("shipping_reference")
+  districtId      String        @map("district_id")
+
+  // Montos
+  subtotal        Decimal       @db.Decimal(10, 2)
+  shippingCost    Decimal       @map("shipping_cost") @db.Decimal(10, 2)
+  discount        Decimal       @default(0) @db.Decimal(10, 2) // Monto de descuento aplicado
+  total           Decimal       @db.Decimal(10, 2)
+
+  // Cupón (opcional)
+  couponId        String?       @map("coupon_id")
+
+  // Payment gateway reference
+  paymentRef      String?       @map("payment_ref")            // ID transacción MercadoPago/Niubiz
+  paidAt          DateTime?     @map("paid_at")
+
+  // Notas
+  customerNotes   String?       @map("customer_notes") @db.Text
+  adminNotes      String?       @map("admin_notes") @db.Text
+
+  createdAt       DateTime      @default(now()) @map("created_at")
+  updatedAt       DateTime      @updatedAt @map("updated_at")
+
+  // Relations
+  user            User          @relation(fields: [userId], references: [id], onDelete: Restrict)
+  district        District      @relation(fields: [districtId], references: [id], onDelete: Restrict)
+  coupon          Coupon?       @relation(fields: [couponId], references: [id], onDelete: SetNull)
+  items           OrderItem[]
+  statusHistory   OrderStatusHistory[]
+
+  @@index([userId])
+  @@index([status])
+  @@index([orderNumber])
+  @@index([createdAt])
+  @@index([paymentMethod])
+  @@map("orders")
+}
+
+model OrderItem {
+  id          String  @id @default(cuid())
+  orderId     String  @map("order_id")
+  productId   String  @map("product_id")
+  quantity    Int
+  unitPrice   Decimal @map("unit_price") @db.Decimal(10, 2)  // Precio al momento de la compra
+  totalPrice  Decimal @map("total_price") @db.Decimal(10, 2)
+
+  // Snapshot del producto al momento de la compra
+  productName String  @map("product_name")
+  productSku  String  @map("product_sku")
+  productImage String? @map("product_image")
+
+  // Relations
+  order       Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product     Product @relation(fields: [productId], references: [id], onDelete: Restrict)
+
+  @@index([orderId])
+  @@index([productId])
+  @@map("order_items")
+}
+
+// ============================================================================
+// ORDER STATUS HISTORY — Historial de cambios para tracking visual
+// ============================================================================
+
+model OrderStatusHistory {
+  id        String      @id @default(cuid())
+  orderId   String      @map("order_id")
+  status    OrderStatus
+  notes     String?     @db.Text
+  changedBy String?     @map("changed_by")                // ID del admin/delivery que cambió
+  createdAt DateTime    @default(now()) @map("created_at")
+
+  // Relations
+  order     Order       @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@index([orderId])
+  @@index([createdAt])
+  @@map("order_status_history")
+}
+
+// ============================================================================
+// CART — Carrito persistente (Server-Side)
+// ============================================================================
+
+model Cart {
+  id        String     @id @default(cuid())
+  userId    String     @unique @map("user_id")
+  createdAt DateTime   @default(now()) @map("created_at")
+  updatedAt DateTime   @updatedAt @map("updated_at")
+
+  // Relations
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items     CartItem[]
+
+  @@map("carts")
+}
+
+model CartItem {
+  id        String   @id @default(cuid())
+  cartId    String   @map("cart_id")
+  productId String   @map("product_id")
+  quantity  Int      @default(1)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  cart      Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([cartId, productId])                           // Un producto una sola vez por carrito
+  @@index([cartId])
+  @@map("cart_items")
+}
+
+// ============================================================================
+// REVIEWS — Valoraciones de productos (para Rich Snippets)
+// ============================================================================
+
+model Review {
+  id        String   @id @default(cuid())
+  productId String   @map("product_id")
+  userId    String   @map("user_id")
+  rating    Int                                            // 1-5 estrellas
+  comment   String?  @db.Text
+  isVisible Boolean  @default(true) @map("is_visible")     // Moderación
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([productId, userId])                            // Una review por usuario por producto
+  @@index([productId])
+  @@index([rating])
+  @@map("reviews")
+}
+
+// ============================================================================
+// ANNOUNCEMENT BAR — Promociones en el banner superior
+// ============================================================================
+
+model Announcement {
+  id        String   @id @default(cuid())
+  message   String
+  link      String?                                        // URL opcional
+  isActive  Boolean  @default(true) @map("is_active")
+  startDate DateTime? @map("start_date")
+  endDate   DateTime? @map("end_date")
+  sortOrder Int      @default(0) @map("sort_order")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([isActive])
+  @@map("announcements")
+}
+
+// ============================================================================
+// STORE SETTINGS — Configuración global de la tienda
+// ============================================================================
+
+model StoreSettings {
+  id           String   @id @default(cuid())
+  heroImageUrl String?  @map("hero_image_url")
+  heroTitle    String?  @map("hero_title")
+  heroSubtitle String?  @map("hero_subtitle")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@map("store_settings")
+}
