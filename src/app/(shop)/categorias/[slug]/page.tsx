@@ -5,6 +5,8 @@ import { STORE_NAME, STORE_URL } from "@/lib/constants";
 import { ProductGrid } from "@/components/products/product-grid";
 import { ProductFilters } from "@/components/products/product-filters";
 
+export const dynamic = "force-dynamic";
+
 export async function generateMetadata(
   props: {
     params: Promise<{ slug: string }>;

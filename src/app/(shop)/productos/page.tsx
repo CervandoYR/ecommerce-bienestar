@@ -5,6 +5,8 @@ import { ProductFilters } from "@/components/products/product-filters";
 import prisma from "@/lib/prisma";
 import type { ProductWithCategory } from "@/types";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Catálogo de Productos | Bienestar Store",
   description: "Explora nuestra selección premium de productos de bienestar y relajación.",

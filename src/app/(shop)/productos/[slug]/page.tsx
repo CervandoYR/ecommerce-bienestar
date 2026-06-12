@@ -8,6 +8,8 @@ import { ProductActions } from "@/components/products/product-actions";
 import { formatPrice, getDiscountPercentage } from "@/lib/utils";
 import { Accordion } from "@/components/ui/accordion";
 
+export const dynamic = "force-dynamic";
+
 interface PageProps {
   params: Promise<{ slug: string }>;
 }
