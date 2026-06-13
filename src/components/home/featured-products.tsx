@@ -98,12 +98,13 @@ export function FeaturedProducts({ className }: { className?: string }) {
       <div className="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-sage-200/40 rounded-full blur-3xl pointer-events-none" />
       
       <div className="container-narrow relative z-10">
-        <div className="flex flex-col md:flex-row items-end justify-between gap-6 mb-12">
+        <div className="flex flex-col md:flex-row items-center md:items-end justify-between gap-6 mb-12 text-center md:text-left">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
+            className="flex flex-col items-center md:items-start"
           >
             <span className="inline-flex items-center gap-2 text-sage-600 text-sm font-semibold uppercase tracking-widest mb-3">
               <Sparkles className="w-4 h-4" />
