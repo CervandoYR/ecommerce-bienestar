@@ -2,7 +2,7 @@ import { initializeApp, getApps, getApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, sendPasswordResetEmail, onAuthStateChanged, type User } from 'firebase/auth';
 import { firebaseConfig } from './config';
 
-const isConfigured = typeof window !== 'undefined' || (firebaseConfig.apiKey && firebaseConfig.apiKey !== 'your-api-key');
+const isConfigured = !!(firebaseConfig.apiKey && firebaseConfig.apiKey !== 'your-api-key');
 const app = isConfigured ? (getApps().length > 0 ? getApp() : initializeApp(firebaseConfig)) : null;
 
 export const auth = app ? getAuth(app) : null as any;
