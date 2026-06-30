@@ -12,7 +12,7 @@ export async function getStoreSettings() {
         data: {
           heroTitle: "Bienestar en cada respiración",
           heroSubtitle: "Descubre nuestra colección premium de aromaterapia y autocuidado.",
-          heroImageUrl: "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?q=80&w=2000&auto=format&fit=crop",
+          heroImageUrl: "/samay-munay-hero.png",
         }
       });
     }
@@ -26,7 +26,7 @@ export async function getStoreSettings() {
         id: "mock",
         heroTitle: "Bienestar en cada respiración",
         heroSubtitle: "Descubre nuestra colección premium de aromaterapia y autocuidado.",
-        heroImageUrl: "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?q=80&w=2000&auto=format&fit=crop",
+        heroImageUrl: "/samay-munay-hero.png",
         updatedAt: new Date()
       } 
     };
@@ -37,6 +37,11 @@ export async function updateStoreSettings(data: {
   heroTitle?: string;
   heroSubtitle?: string;
   heroImageUrl?: string;
+  promoModalActive?: boolean;
+  promoModalImage?: string;
+  promoModalTitle?: string;
+  promoModalText?: string;
+  promoModalLink?: string;
 }) {
   try {
     const existing = await prisma.storeSettings.findFirst();
@@ -50,7 +55,7 @@ export async function updateStoreSettings(data: {
       await prisma.storeSettings.create({ data });
     }
     
-    revalidatePath("/");
+    revalidatePath("/", "layout");
     return { success: true };
   } catch (error) {
     console.error("Error al actualizar settings:", error);

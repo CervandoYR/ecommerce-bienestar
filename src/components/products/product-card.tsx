@@ -62,17 +62,27 @@ export function ProductCard({ product, className, isPriority = false }: ProductC
               <Leaf className="w-12 h-12 text-sage-200" />
             </div>
           ) : (
-            <Image
-              src={product.images[0]}
-              alt={product.name}
-              fill
-              priority={isPriority}
-              className="object-cover transition-transform duration-700 group-hover:scale-110"
-            />
+            <>
+              <Image
+                src={product.images[0]}
+                alt={product.name}
+                fill
+                priority={isPriority}
+                className={cn(
+                  "object-cover transition-opacity duration-300",
+                  product.images[1] ? "group-hover:opacity-0" : ""
+                )}
+              />
+              {product.images[1] && (
+                <Image
+                  src={product.images[1]}
+                  alt={`${product.name} alternate view`}
+                  fill
+                  className="object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                />
+              )}
+            </>
           )}
-          
-          {/* Dark overlay on hover */}
-          <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
           {/* Add to Cart Button (Reveals on hover) */}
           {!isOutOfStock && (
@@ -80,23 +90,28 @@ export function ProductCard({ product, className, isPriority = false }: ProductC
               <motion.button
                 whileTap={{ scale: 0.95 }}
                 onClick={handleAddToCart}
-                className="w-full py-3.5 bg-white/95 backdrop-blur-sm text-warm-900 rounded-xl font-semibold flex items-center justify-center gap-2 hover:bg-sage-600 hover:text-white transition-colors duration-300 shadow-lg cursor-pointer"
+                className="w-full py-3 bg-white/95 backdrop-blur-sm text-warm-900 rounded-xl font-semibold flex items-center justify-center gap-2 hover:bg-sage-600 hover:text-white transition-colors duration-300 shadow-lg cursor-pointer border border-warm-100"
               >
-                <ShoppingBag className="w-5 h-5" />
+                <ShoppingBag className="w-4 h-4" />
                 Agregar al Carrito
               </motion.button>
             </div>
           )}
 
           {/* Badges */}
-          <div className="absolute top-4 left-4 flex flex-col gap-2 z-10">
+          <div className="absolute top-4 left-4 flex flex-col gap-2 z-10 items-start">
             {isOutOfStock ? (
               <span className="px-3 py-1.5 text-xs font-bold bg-warm-800 text-white rounded-full shadow-sm">
                 AGOTADO
               </span>
             ) : (
               <>
-                {isNew && (
+                {product.isFeatured && (
+                  <span className="px-3 py-1.5 text-xs font-bold bg-[#ff9900] text-white rounded-md shadow-sm tracking-wide">
+                    MÁS VENDIDO
+                  </span>
+                )}
+                {isNew && !product.isFeatured && (
                   <span className="px-3 py-1.5 text-xs font-bold bg-white text-warm-900 rounded-full shadow-sm">
                     NUEVO
                   </span>
@@ -116,9 +131,20 @@ export function ProductCard({ product, className, isPriority = false }: ProductC
           <span className="text-xs font-semibold text-sage-600 uppercase tracking-wider mb-2 block">
             {product.category?.name}
           </span>
-          <h3 className="text-lg font-bold text-warm-900 mb-2 group-hover:text-sage-700 transition-colors line-clamp-2">
+          <h3 className="text-lg font-bold text-warm-900 mb-1 group-hover:text-sage-700 transition-colors line-clamp-2">
             {product.name}
           </h3>
+          
+          {/* Estrellas de Valoración (Estilo Amazon) */}
+          <div className="flex items-center gap-1 mb-2">
+            {[1, 2, 3, 4, 5].map((star) => (
+              <svg key={star} className="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+              </svg>
+            ))}
+            <span className="text-xs text-warm-500 ml-1">(4.8)</span>
+          </div>
+
           <div className="flex items-center gap-3">
             <span className="text-xl font-bold text-warm-900">
               {formatPrice(product.price)}

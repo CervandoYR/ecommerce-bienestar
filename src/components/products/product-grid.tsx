@@ -18,7 +18,7 @@ export function ProductGrid({
 }: ProductGridProps) {
   if (isLoading) {
     return (
-      <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
         {Array.from({ length: 8 }).map((_, i) => (
           <div key={i} className="flex flex-col gap-3">
             <Skeleton className="w-full aspect-[4/5] rounded-2xl" />
@@ -41,13 +41,9 @@ export function ProductGrid({
   }
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 auto-rows-max">
+    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
       <AnimatePresence mode="popLayout">
         {products.map((product, index) => {
-          // Editorial Layout Logic:
-          // Make the 1st item, and every 6th item large (col-span-2 row-span-2) on desktop
-          const isLarge = index === 0 || index % 6 === 0;
-          
           return (
             <motion.div
               key={product.id}
@@ -56,7 +52,6 @@ export function ProductGrid({
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
               transition={{ duration: 0.4 }}
-              className={isLarge ? "md:col-span-2 md:row-span-2" : ""}
             >
               <ProductCard
                 product={product}

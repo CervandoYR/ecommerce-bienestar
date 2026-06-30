@@ -17,9 +17,9 @@ import {
   Menu,
   X
 } from "lucide-react";
-import { logout } from "@/lib/firebase/client";
-import { STORE_NAME } from "@/lib/constants";
+import { createClient } from "@/lib/supabase/client";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 import { CommandPalette } from "@/components/admin/command-palette";
 import { ThemeToggle } from "@/components/admin/theme-toggle";
 
@@ -63,7 +63,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   // }
 
   const handleLogout = async () => {
-    await logout();
+    const supabase = createClient();
+    await supabase.auth.signOut();
     router.push("/");
   };
 
@@ -85,8 +86,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         )}>
           <div className="h-16 flex items-center justify-between px-6 border-b border-warm-200 dark:border-warm-800/50">
             <Link href="/" className="flex items-center gap-2 group">
-              <div className="flex items-center justify-center rounded-lg bg-gradient-to-br from-sage-500 to-sage-700 w-8 h-8 shadow-lg shadow-sage-900/50">
-                <Leaf className="size-4 text-white" />
+              <div className="flex items-center justify-center rounded-lg w-8 h-8 relative shadow-sm">
+                <Image src="/logo.ico" alt="Samay Munay Logo" fill className="object-contain" unoptimized />
               </div>
               <span className="font-semibold text-warm-900 dark:text-white tracking-wide">Admin Panel</span>
             </Link>

@@ -7,27 +7,41 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
   return (
     <div className="min-h-screen bg-white flex w-full">
       {/* Left Column: Form & Content */}
-      <div className="flex-1 flex flex-col justify-center px-6 sm:px-12 lg:px-20 xl:px-24 py-12 relative z-10 w-full max-w-[600px] lg:max-w-none">
+      <div className="flex-1 flex flex-col px-6 sm:px-12 lg:px-20 xl:px-24 py-8 relative z-10 w-full max-w-[600px] lg:max-w-none overflow-y-auto">
         
-        {/* Brand Logo - Top Left */}
-        <div className="absolute top-8 left-6 sm:left-12 lg:left-20">
-          <Link href="/" className="inline-flex items-center gap-3 group">
-            <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-sage-50 group-hover:bg-sage-100 transition-colors duration-300">
-              <Leaf className="w-5 h-5 text-sage-600" />
-            </div>
-            <span className="text-xl font-bold text-warm-900 tracking-tight">
-              {STORE_NAME.split(" ")[0]}
-            </span>
+        {/* Header (Back link) */}
+        <div className="mb-8 mt-4">
+          <Link href="/" className="text-warm-500 hover:text-warm-900 text-sm font-medium transition-colors flex items-center gap-2 w-fit">
+            &larr; Volver a la tienda
           </Link>
         </div>
 
         {/* Dynamic Content (Login/Registro Forms) */}
-        <div className="w-full max-w-md mx-auto mt-12 lg:mt-0">
+        <div className="w-full max-w-md mx-auto flex-1 flex flex-col justify-center">
+          
+          {/* Centered Brand Logo */}
+          <div className="flex justify-center mb-10">
+            <Link href="/" className="inline-flex items-center gap-3 group">
+              <div className="relative w-12 h-12 flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
+                <Image 
+                  src="/logo.ico" 
+                  alt={STORE_NAME} 
+                  fill 
+                  className="object-contain"
+                  unoptimized 
+                />
+              </div>
+              <span className="font-bold text-2xl text-warm-900 tracking-wide font-serif">
+                {STORE_NAME}
+              </span>
+            </Link>
+          </div>
+
           {children}
         </div>
         
-        {/* Footer info - Bottom Left */}
-        <div className="absolute bottom-8 left-6 sm:left-12 lg:left-20 text-xs text-warm-400 font-light">
+        {/* Footer info */}
+        <div className="mt-12 mb-4 text-center text-xs text-warm-400 font-light">
           &copy; {new Date().getFullYear()} {STORE_NAME}. Todos los derechos reservados.
         </div>
       </div>

@@ -4,11 +4,13 @@ import { useState, useEffect } from "react";
 import { MessageCircle, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { buildWhatsAppUrl } from "@/lib/utils";
+import { usePathname } from "next/navigation";
 
 export function WhatsAppFAB() {
   const [isOpen, setIsOpen] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     setMounted(true);
@@ -30,6 +32,7 @@ export function WhatsAppFAB() {
   };
 
   if (!mounted) return null;
+  if (pathname?.startsWith("/admin")) return null;
 
   return (
     <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-4">

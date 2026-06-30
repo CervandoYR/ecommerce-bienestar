@@ -63,20 +63,14 @@ export default async function CatalogPage({
   return (
     <div className="bg-warm-50 min-h-screen pb-16">
       
-      {/* Premium Header */}
-      <div className="relative bg-warm-900 pt-32 pb-20 px-4 overflow-hidden">
-        {/* Background Decorations */}
-        <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-          <div className="absolute top-[-50%] left-[-10%] w-[60%] h-[100%] rounded-full bg-sage-900/30 blur-[100px]" />
-          <div className="absolute bottom-[-50%] right-[-10%] w-[60%] h-[100%] rounded-full bg-gold-900/20 blur-[100px]" />
-        </div>
-        
+      {/* Minimal Header */}
+      <div className="relative bg-stone-50 pt-24 pb-12 px-4 border-b border-warm-100">
         <div className="container-narrow relative z-10 text-center">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 tracking-tight">
-            Colección <span className="text-sage-400 italic font-light">Completa</span>
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-warm-900 font-serif tracking-wide mb-4">
+            Catálogo de <span className="italic font-light">Productos</span>
           </h1>
-          <p className="text-lg md:text-xl text-warm-300 max-w-2xl mx-auto font-light">
-            Encuentra todo lo que necesitas para tu rutina de bienestar. Desde aceites esenciales hasta accesorios de meditación, cuidadosamente seleccionados para ti.
+          <p className="text-base md:text-lg text-warm-500 max-w-2xl mx-auto font-light">
+            Descubre nuestra colección premium de bienestar. Encuentra el balance perfecto para tu día a día.
           </p>
         </div>
       </div>

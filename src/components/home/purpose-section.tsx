@@ -5,6 +5,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { Heart, Leaf, Sparkles, Users } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
+import { STORE_NAME } from "@/lib/constants";
 
 const values = [
   {
@@ -53,8 +54,14 @@ export function PurposeSection({ className }: { className?: string }) {
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.6 }}
             >
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-sage-100 text-sage-600 mb-8">
-                <Leaf className="w-8 h-8" />
+              <div className="mb-8 transition-transform duration-500 hover:scale-105 relative w-16 h-16">
+                <Image 
+                  src="/logo.ico" 
+                  alt={STORE_NAME} 
+                  fill 
+                  className="object-contain"
+                  unoptimized 
+                />
               </div>
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-warm-900 leading-[1.1] mb-6 tracking-tight">
                 El arte de la <span className="text-sage-600 italic font-light">calma</span>

@@ -1,4 +1,4 @@
-export const STORE_NAME = 'Bienestar Store';
+export const STORE_NAME = 'Samay Munay';
 export const STORE_DESCRIPTION = 'Tu tienda de productos de relajación y bienestar en Lima, Perú';
 export const STORE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://bienestarstore.pe';
 export const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '51999999999';

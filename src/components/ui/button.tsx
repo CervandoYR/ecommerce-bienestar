@@ -65,7 +65,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     const isDisabled = disabled || loading;
 
     const classes = cn(
-      "relative inline-flex items-center justify-center font-medium transition-colors",
+      "relative inline-flex items-center justify-center font-medium transition-all duration-200 hover:opacity-90 active:scale-95 cursor-pointer",
       "select-none whitespace-nowrap",
       "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
       "disabled:pointer-events-none disabled:opacity-50",

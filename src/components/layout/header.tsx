@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 import { motion, useMotionValueEvent, useScroll } from "framer-motion";
 import {
   Leaf,
@@ -76,24 +77,26 @@ export function Header() {
             transition={{ duration: 0.3, ease: "easeInOut" }}
           >
             {/* Left: Logo */}
-            <Link href="/" className="flex items-center gap-2 group shrink-0">
+            <Link href="/" className="flex items-center gap-3 group shrink-0">
               <motion.div
-                className={cn(
-                  "flex items-center justify-center rounded-lg",
-                  "bg-sage-100 group-hover:bg-sage-200",
-                  "transition-colors duration-200"
-                )}
-                animate={{ width: isScrolled ? 32 : 36, height: isScrolled ? 32 : 36 }}
+                className="relative flex items-center justify-center transition-transform duration-300 group-hover:scale-105"
+                animate={{ width: isScrolled ? 40 : 48, height: isScrolled ? 40 : 48 }}
                 transition={{ duration: 0.3 }}
               >
-                <Leaf className="size-5 text-sage-600" />
+                <Image 
+                  src="/logo.ico" 
+                  alt={STORE_NAME} 
+                  fill 
+                  className="object-contain"
+                  unoptimized 
+                />
               </motion.div>
               <motion.span
-                className="font-semibold text-foreground tracking-tight"
-                animate={{ fontSize: isScrolled ? "1.125rem" : "1.25rem" }}
+                className="font-bold text-warm-900 tracking-wide font-serif"
+                animate={{ fontSize: isScrolled ? "1.25rem" : "1.5rem" }}
                 transition={{ duration: 0.3 }}
               >
-                {STORE_NAME.split(" ")[0]}
+                {STORE_NAME}
               </motion.span>
             </Link>
 
@@ -160,7 +163,7 @@ export function Header() {
                 >
                   {user ? (
                     <div className="w-6 h-6 rounded-full bg-sage-200 flex items-center justify-center text-xs font-medium text-sage-800">
-                      {user.displayName?.charAt(0) || user.email?.charAt(0).toUpperCase() || <User className="size-4" />}
+                      {(user.user_metadata?.name || user.user_metadata?.full_name)?.charAt(0) || user.email?.charAt(0).toUpperCase() || <User className="size-4" />}
                     </div>
                   ) : (
                     <User className="size-5" />

@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
-import { logout } from "@/lib/firebase/client";
+import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { User, LogOut, Package, Heart, Settings } from "lucide-react";
 
@@ -26,7 +26,8 @@ export default function ProfilePage() {
   }
 
   const handleLogout = async () => {
-    await logout();
+    const supabase = createClient();
+    await supabase.auth.signOut();
     router.push("/");
   };
 
@@ -50,7 +51,7 @@ export default function ProfilePage() {
                 <User className="w-10 h-10" />
               </div>
               <h2 className="text-lg font-bold text-warm-900 text-center">
-                {user.displayName || "Usuario de Bienestar"}
+                {user.user_metadata?.name || user.user_metadata?.full_name || "Usuario de Bienestar"}
               </h2>
               <p className="text-sm text-warm-500 truncate w-full text-center">
                 {user.email}
@@ -96,7 +97,7 @@ export default function ProfilePage() {
                 <div>
                   <label className="block text-sm font-medium text-warm-500 mb-1">Nombre</label>
                   <p className="text-warm-900 font-medium bg-warm-50 p-3 rounded-lg border border-warm-100">
-                    {user.displayName || "No especificado"}
+                    {user.user_metadata?.name || user.user_metadata?.full_name || "No especificado"}
                   </p>
                 </div>
                 <div>
@@ -108,7 +109,7 @@ export default function ProfilePage() {
                 <div>
                   <label className="block text-sm font-medium text-warm-500 mb-1">Teléfono</label>
                   <p className="text-warm-900 font-medium bg-warm-50 p-3 rounded-lg border border-warm-100">
-                    {user.phoneNumber || "No especificado"}
+                    {user.user_metadata?.phone || "No especificado"}
                   </p>
                 </div>
                 <div>

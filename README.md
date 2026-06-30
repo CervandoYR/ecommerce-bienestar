@@ -1,36 +1,62 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Bienestar Store (E-commerce)
 
-## Getting Started
+Este es un e-commerce de alto rendimiento construido con Next.js (App Router), Supabase (Base de datos y Autenticación), Prisma y Tailwind CSS.
 
-First, run the development server:
+## Requisitos Previos
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- Node.js (v18+)
+- Cuenta en [Supabase](https://supabase.com/)
+- Cuenta en [Cloudinary](https://cloudinary.com/)
+- Cuenta en [Resend](https://resend.com/) (para envío de correos)
+
+## Configuración del Entorno (.env)
+
+1. Duplica el archivo `.env.example` o `.env` y asegúrate de tener las siguientes variables configuradas:
+
+```env
+# Base de datos Supabase
+DATABASE_URL="postgresql://postgres.[REFERENCIA]:[PASSWORD]@aws-0-[REGION].pooler.supabase.com:6543/postgres?pgbouncer=true"
+DIRECT_URL="postgresql://postgres.[REFERENCIA]:[PASSWORD]@aws-0-[REGION].pooler.supabase.com:5432/postgres"
+
+# Autenticación Supabase
+NEXT_PUBLIC_SUPABASE_URL="https://[REFERENCIA].supabase.co"
+NEXT_PUBLIC_SUPABASE_ANON_KEY="tu_anon_key"
+
+# Cloudinary (Imágenes)
+CLOUDINARY_CLOUD_NAME="tu_cloud_name"
+CLOUDINARY_API_KEY="tu_api_key"
+CLOUDINARY_API_SECRET="tu_api_secret"
+NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME="tu_cloud_name"
+
+# Resend (Envío de Correos)
+RESEND_API_KEY="re_tu_api_key"
+FROM_EMAIL="Bienestar Store <noreply@bienestarstore.pe>"
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Instalación y Ejecución
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Instalar dependencias:
+```bash
+npm install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2. Inicializar base de datos (Prisma):
+```bash
+npx prisma db push
+```
 
-## Learn More
+3. Correr el servidor de desarrollo:
+```bash
+npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+La tienda estará disponible en `http://localhost:3000`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Subida de Imágenes (Cloudinary)
+Este proyecto utiliza **Signed Uploads** desde el cliente (Browser). El servidor solo genera firmas criptográficas en `/api/cloudinary/sign` y el cliente sube la imagen de forma directa y segura a Cloudinary, guardando únicamente la URL en la base de datos de Supabase.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Cumplimiento Legal (Perú)
+Implementa funcionalidades nativas para la Ley N° 29733 (Ley de Protección de Datos Personales), incluyendo checkboxes explícitos de consentimiento en el registro y un panel en el perfil para ejercer los **Derechos ARCO** (Acceso, Rectificación, Cancelación y Oposición).
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## SEO
+Integración nativa con `generateMetadata` y Schema Markup (JSON-LD) inyectado dinámicamente en los productos para soportar Rich Snippets de Google y Motores AI.

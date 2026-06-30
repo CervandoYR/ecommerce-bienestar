@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 const ANNOUNCEMENT_MESSAGES = [
   "🎉 Envío gratis en pedidos mayores a S/99",
   "✨ 15% de descuento con el código BIENESTAR15",
-  "🚚 Same-day delivery en SJM y alrededores",
+  "🚚 Entrega el mismo día en SJM y alrededores",
 ] as const;
 
 const CYCLE_INTERVAL_MS = 5000;

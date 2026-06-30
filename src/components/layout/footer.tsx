@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import {
   Leaf,
   BookOpen,
@@ -43,12 +44,18 @@ export function Footer() {
             <Link href="/" className="inline-flex items-center gap-3 group mb-6">
               <div
                 className={cn(
-                  "flex items-center justify-center w-12 h-12 rounded-2xl",
+                  "relative flex items-center justify-center w-12 h-12 rounded-2xl overflow-hidden",
                   "bg-sage-600/20 group-hover:bg-sage-600/30 border border-sage-500/20",
                   "transition-all duration-300"
                 )}
               >
-                <Leaf className="w-6 h-6 text-sage-400 group-hover:text-sage-300 transition-colors" />
+                <Image 
+                  src="/logo.ico" 
+                  alt="Logo" 
+                  fill 
+                  className="object-contain p-2"
+                  unoptimized 
+                />
               </div>
               <span className="text-2xl font-bold text-white tracking-tight">
                 {STORE_NAME}

@@ -1,7 +1,8 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState } from "react";
-import { onAuthStateChanged, type User, auth } from "@/lib/firebase/client";
+import { createClient } from "@/lib/supabase/client";
+import { User } from "@supabase/supabase-js";
 
 interface AuthContextType {
   user: User | null;
@@ -19,36 +20,39 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
+  
+  // Use useMemo or state for client to avoid recreation, but simple init is ok
+  const [supabase] = useState(() => createClient());
 
   useEffect(() => {
-    if (!auth) {
-      setLoading(false);
-      return;
+    let mounted = true;
+
+    async function getSession() {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (mounted) {
+        setUser(session?.user ?? null);
+        setIsAdmin(session?.user?.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL);
+        setLoading(false);
+      }
     }
 
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      setUser(currentUser);
-      setIsAdmin(currentUser?.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL);
-      
-      if (currentUser) {
-        try {
-          const token = await currentUser.getIdToken();
-          await fetch('/api/auth/sync', {
-            method: 'POST',
-            headers: {
-              'Authorization': `Bearer ${token}`
-            }
-          });
-        } catch (error) {
-          console.error("Failed to sync user with backend:", error);
+    getSession();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        if (mounted) {
+          setUser(session?.user ?? null);
+          setIsAdmin(session?.user?.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL);
+          setLoading(false);
         }
       }
-      
-      setLoading(false);
-    });
+    );
 
-    return () => unsubscribe();
-  }, []);
+    return () => {
+      mounted = false;
+      subscription.unsubscribe();
+    };
+  }, [supabase.auth]);
 
   return (
     <AuthContext.Provider value={{ user, loading, isAdmin }}>

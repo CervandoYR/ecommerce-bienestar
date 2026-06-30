@@ -61,8 +61,8 @@ export function ProductFilters({ className }: ProductFiltersProps) {
                 className={cn(
                   "whitespace-nowrap px-6 py-2.5 rounded-full text-sm font-medium transition-all duration-300",
                   isActive
-                    ? "bg-warm-900 text-white shadow-md"
-                    : "bg-white text-warm-600 border border-warm-200 hover:border-warm-300 hover:bg-warm-50"
+                    ? "bg-sage-700 text-white shadow-md ring-2 ring-sage-700/20"
+                    : "bg-white text-warm-600 border border-warm-200 hover:border-sage-300 hover:bg-sage-50"
                 )}
               >
                 {category.label}

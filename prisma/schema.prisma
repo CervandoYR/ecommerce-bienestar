@@ -40,13 +40,27 @@ enum DiscountType {
   FIXED
 }
 
+enum ArcoType {
+  ACCESO
+  RECTIFICACION
+  CANCELACION
+  OPOSICION
+}
+
+enum ArcoStatus {
+  PENDIENTE
+  EN_PROCESO
+  RESUELTO
+  RECHAZADO
+}
+
 // ============================================================================
 // USER
 // ============================================================================
 
 model User {
   id            String   @id @default(cuid())
-  firebaseUid   String   @unique @map("firebase_uid")   // Firebase Auth UID
+  supabaseUid   String   @unique @map("supabase_uid")   // Supabase Auth UID
   email         String   @unique
   name          String
   phone         String?
@@ -54,6 +68,9 @@ model User {
   address       String?
   reference     String?                                   // Referencia de la dirección
   districtId    String?  @map("district_id")
+  birthDate     DateTime? @map("birth_date")
+  acceptsPrivacyPolicy Boolean @default(false) @map("accepts_privacy_policy")
+  acceptsDataUsage     Boolean @default(false) @map("accepts_data_usage")
   role          Role     @default(CLIENT)
   avatarUrl     String?  @map("avatar_url")
   createdAt     DateTime @default(now()) @map("created_at")
@@ -64,8 +81,9 @@ model User {
   orders        Order[]
   reviews       Review[]
   cart          Cart?
+  arcoRequests  ArcoRequest[]
 
-  @@index([firebaseUid])
+  @@index([supabaseUid])
   @@index([email])
   @@index([role])
   @@map("users")
@@ -105,6 +123,7 @@ model Supplier {
   contactName String?   @map("contact_name")
   email       String?
   phone       String?
+  websiteUrl  String?   @map("website_url")
   isActive    Boolean   @default(true) @map("is_active")
   createdAt   DateTime  @default(now()) @map("created_at")
   updatedAt   DateTime  @updatedAt @map("updated_at")
@@ -428,7 +447,39 @@ model StoreSettings {
   heroImageUrl String?  @map("hero_image_url")
   heroTitle    String?  @map("hero_title")
   heroSubtitle String?  @map("hero_subtitle")
+  
+  // Promocional Modal
+  promoModalActive Boolean @default(false) @map("promo_modal_active")
+  promoModalImage  String? @map("promo_modal_image")
+  promoModalTitle  String? @map("promo_modal_title")
+  promoModalText   String? @map("promo_modal_text")
+  promoModalLink   String? @map("promo_modal_link")
+
   updatedAt    DateTime @updatedAt @map("updated_at")
 
   @@map("store_settings")
+}
+
+// ============================================================================
+// ARCO REQUEST (Ley N° 29733 - Perú)
+// ============================================================================
+
+model ArcoRequest {
+  id          String     @id @default(cuid())
+  userId      String     @map("user_id")
+  type        ArcoType
+  status      ArcoStatus @default(PENDIENTE)
+  details     String     @db.Text
+  adminNotes  String?    @map("admin_notes") @db.Text
+  resolvedAt  DateTime?  @map("resolved_at")
+  createdAt   DateTime   @default(now()) @map("created_at")
+  updatedAt   DateTime   @updatedAt @map("updated_at")
+
+  // Relations
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([status])
+  @@index([type])
+  @@map("arco_requests")
 }

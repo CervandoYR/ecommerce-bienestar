@@ -18,7 +18,7 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
   const params = await props.params;
   const product = await prisma.product.findUnique({
     where: { slug: params.slug, isActive: true },
-    select: { name: true, description: true },
+    select: { name: true, description: true, images: true },
   });
 
   if (!product) return {};
@@ -26,6 +26,11 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
   return {
     title: `${product.name} | Bienestar Store`,
     description: product.description,
+    openGraph: {
+      title: `${product.name} | Bienestar Store`,
+      description: product.description,
+      images: product.images && product.images.length > 0 ? [{ url: product.images[0] }] : [],
+    }
   };
 }
 
@@ -63,8 +68,41 @@ export default async function ProductDetailPage(props: PageProps) {
   
   const isOutOfStock = product.stock <= 0;
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://bienestarstore.pe';
+  const jsonLd = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'Product',
+      name: product.name,
+      image: product.images || [],
+      description: product.description,
+      sku: product.sku,
+      offers: {
+        '@type': 'Offer',
+        url: `${siteUrl}/productos/${product.slug}`,
+        priceCurrency: 'PEN',
+        price: product.price.toString(),
+        availability: product.stock > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+      }
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Inicio', item: siteUrl },
+        { '@type': 'ListItem', position: 2, name: 'Productos', item: `${siteUrl}/productos` },
+        { '@type': 'ListItem', position: 3, name: product.category.name, item: `${siteUrl}/categorias/${product.category.slug}` },
+        { '@type': 'ListItem', position: 4, name: product.name, item: `${siteUrl}/productos/${product.slug}` }
+      ]
+    }
+  ];
+
   return (
     <div className="bg-white min-h-screen">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <div className="container-narrow pt-6 pb-20">
         
         {/* Breadcrumbs */}
