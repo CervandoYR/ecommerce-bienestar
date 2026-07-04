@@ -1,6 +1,8 @@
+import { Suspense } from "react";
 import { HeroSection } from "@/components/home/hero-section";
 import { TransformationBento } from "@/components/home/transformation-bento";
 import { CuratedSelection } from "@/components/home/curated-selection";
+import { FeaturedProducts } from "@/components/home/featured-products";
 import { PurposeSection } from "@/components/home/purpose-section";
 import { TrustBadges } from "@/components/home/trust-badges";
 import { getStoreSettings } from "@/app/actions/settings";
@@ -18,8 +20,12 @@ export default async function HomePage() {
       />
       <TransformationBento settings={settings} />
       <CuratedSelection settings={settings} />
+      <Suspense fallback={null}>
+        <FeaturedProducts />
+      </Suspense>
       <PurposeSection settings={settings} />
       <TrustBadges settings={settings} />
     </div>
   );
 }
+

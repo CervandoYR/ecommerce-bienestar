@@ -82,11 +82,6 @@ export default async function CatalogPage({
       </div>
 
       <div className="container-narrow mt-6 sm:mt-8 px-4 sm:px-6">
-        {/* Dynamic Coming Soon Carousel */}
-        <Suspense fallback={null}>
-          <UpcomingProductsCarousel />
-        </Suspense>
-
         {/* Horizontal Filters */}
         <ProductFilters />
 
@@ -102,6 +97,11 @@ export default async function CatalogPage({
             <ProductGrid products={products} />
           </Suspense>
         </div>
+
+        {/* Coming Soon Carousel — al final, como teaser */}
+        <Suspense fallback={null}>
+          <UpcomingProductsCarousel />
+        </Suspense>
       </div>
     </div>
   );
