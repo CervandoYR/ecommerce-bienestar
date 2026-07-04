@@ -4,16 +4,17 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Trash2, ShoppingBag, Plus, Minus, ArrowRight, Truck, Sparkles } from "lucide-react";
-import { useCart } from "@/store/useCart";
+import { useCart, getCartTotal } from "@/store/useCart";
 import { formatPrice } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 
 export function CartDrawer() {
-  const { items, isOpen, setIsOpen, removeItem, updateQuantity, cartTotal } = useCart();
+  const { items, isOpen, setIsOpen, removeItem, updateQuantity } = useCart();
   const [mounted, setMounted] = useState(false);
 
+  const cartTotal = getCartTotal(items);
   const FREE_SHIPPING_THRESHOLD = 150;
   const progress = Math.min((cartTotal / FREE_SHIPPING_THRESHOLD) * 100, 100);
   const remaining = FREE_SHIPPING_THRESHOLD - cartTotal;
@@ -222,10 +223,10 @@ export function CartDrawer() {
                   Los costos de envío y descuentos se calculan en el checkout.
                 </p>
                 <div className="space-y-3">
-                  <Button asChild size="lg" className="w-full text-base h-14" onClick={() => setIsOpen(false)}>
-                    <Link href="/checkout">
-                      Ir al Checkout
-                      <ArrowRight className="w-5 h-5 ml-2" />
+                  <Button asChild size="lg" className="w-full text-base font-bold h-14 bg-sage-600 hover:bg-sage-700 text-white shadow-lg transition-all" onClick={() => setIsOpen(false)}>
+                    <Link href="/checkout" className="flex items-center justify-center gap-2.5 w-full h-full">
+                      <span>Ir al Checkout</span>
+                      <ArrowRight className="w-5 h-5 shrink-0" />
                     </Link>
                   </Button>
                   <Button

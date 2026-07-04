@@ -10,6 +10,7 @@ import {
   Search,
   User,
   ShoppingBag,
+  Heart,
   Menu,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -18,7 +19,8 @@ import { AnnouncementBar } from "@/components/layout/announcement-bar";
 import { MobileNav } from "@/components/layout/mobile-nav";
 import { SearchOverlay } from "@/components/layout/search-overlay";
 
-import { useCart } from "@/store/useCart";
+import { useCart, getCartCount } from "@/store/useCart";
+import { useWishlist } from "@/store/useWishlist";
 import { useAuth } from "@/context/AuthContext";
 
 const SCROLL_THRESHOLD = 20;
@@ -34,7 +36,12 @@ export function Header() {
   const { user, loading } = useAuth();
   
   // Use cart store
-  const { cartCount, setIsOpen } = useCart();
+  const { items: cartItems, setIsOpen } = useCart();
+  const cartCount = getCartCount(cartItems);
+  
+  // Use wishlist store
+  const { items: wishlistItems, setIsOpen: setWishlistOpen } = useWishlist();
+  const wishlistCount = wishlistItems.length;
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -171,25 +178,53 @@ export function Header() {
                 </Link>
               )}
 
+              {/* Wishlist */}
+              <button
+                onClick={() => setWishlistOpen(true)}
+                className={cn(
+                  "relative p-2.5 rounded-lg cursor-pointer hover:scale-105 transition-all duration-300",
+                  mounted && wishlistCount > 0
+                    ? "bg-red-50 text-red-500 border border-red-200 shadow-sm"
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                )}
+                aria-label={`Mis favoritos, ${mounted ? wishlistCount : 0} productos`}
+              >
+                <Heart className={cn("size-5", mounted && wishlistCount > 0 && "fill-red-500 text-red-500")} />
+                {mounted && wishlistCount > 0 && (
+                  <span
+                    className={cn(
+                      "absolute -top-1 -right-1",
+                      "flex items-center justify-center",
+                      "min-w-[18px] h-[18px] px-1",
+                      "rounded-full bg-red-500 text-white shadow-sm animate-pulse",
+                      "text-[10px] font-bold leading-none border border-white"
+                    )}
+                  >
+                    {wishlistCount > 99 ? "99+" : wishlistCount}
+                  </span>
+                )}
+              </button>
+
               {/* Cart */}
               <button
                 onClick={() => setIsOpen(true)}
                 className={cn(
-                  "relative p-2.5 rounded-lg text-muted-foreground cursor-pointer hover:scale-105 transition-all duration-300",
-                  "hover:text-foreground hover:bg-muted",
-                  "transition-colors duration-200"
+                  "relative p-2.5 rounded-lg cursor-pointer hover:scale-105 transition-all duration-300",
+                  mounted && cartCount > 0
+                    ? "bg-sage-50 text-sage-800 border border-sage-300 shadow-sm"
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted"
                 )}
                 aria-label={`Carrito de compras, ${mounted ? cartCount : 0} productos`}
               >
-                <ShoppingBag className="size-5" />
+                <ShoppingBag className={cn("size-5", mounted && cartCount > 0 && "text-sage-700")} />
                 {mounted && cartCount > 0 && (
                   <span
                     className={cn(
-                      "absolute -top-0.5 -right-0.5",
+                      "absolute -top-1 -right-1",
                       "flex items-center justify-center",
                       "min-w-[18px] h-[18px] px-1",
-                      "rounded-full bg-sage-500 text-white",
-                      "text-[10px] font-bold leading-none"
+                      "rounded-full bg-sage-600 text-white shadow-sm",
+                      "text-[10px] font-bold leading-none border border-white"
                     )}
                   >
                     {cartCount > 99 ? "99+" : cartCount}

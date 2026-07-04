@@ -19,12 +19,13 @@ export async function createProduct(data: any) {
         supplierId: data.supplierId || null,
         images: data.images || [], // Recibe las URLs generadas por Cloudinary client-side
         isFeatured: data.isFeatured === true,
+        isComingSoon: data.isComingSoon === true,
         isActive: data.isActive !== false,
       }
     })
     revalidatePath("/admin/productos")
     revalidatePath("/productos")
-    return { success: true, product }
+    return { success: true, product: JSON.parse(JSON.stringify(product)) }
   } catch (error: any) {
     return { error: error.message }
   }
@@ -47,12 +48,13 @@ export async function updateProduct(id: string, data: any) {
         supplierId: data.supplierId || null,
         images: data.images || [],
         isFeatured: data.isFeatured === true,
+        isComingSoon: data.isComingSoon === true,
         isActive: data.isActive !== false,
       }
     })
     revalidatePath("/admin/productos")
     revalidatePath(`/productos/${product.slug}`)
-    return { success: true, product }
+    return { success: true, product: JSON.parse(JSON.stringify(product)) }
   } catch (error: any) {
     return { error: error.message }
   }

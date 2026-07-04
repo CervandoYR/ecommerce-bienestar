@@ -37,25 +37,25 @@
   --color-warm-900: #4f4a42;
 
   /* ── Semantic tokens (Light) ── */
-  --background: #fafaf7;
-  --foreground: #2a2a26;
+  --background: #FAF8F5;
+  --foreground: #2C402E;
   --card: #ffffff;
-  --card-foreground: #2a2a26;
+  --card-foreground: #2C402E;
   --popover: #ffffff;
-  --popover-foreground: #2a2a26;
-  --primary: #4d7a56;
+  --popover-foreground: #2C402E;
+  --primary: #C5A059;
   --primary-foreground: #ffffff;
   --secondary: #f0f5f1;
-  --secondary-foreground: #324f39;
+  --secondary-foreground: #2C402E;
   --muted: #f5f4ef;
   --muted-foreground: #71685a;
-  --accent: #d49a28;
+  --accent: #C5A059;
   --accent-foreground: #ffffff;
   --destructive: #dc2626;
   --destructive-foreground: #ffffff;
   --border: #e8e6dd;
   --input: #e8e6dd;
-  --ring: #4d7a56;
+  --ring: #C5A059;
   --whatsapp: #25d366;
   --whatsapp-foreground: #ffffff;
 

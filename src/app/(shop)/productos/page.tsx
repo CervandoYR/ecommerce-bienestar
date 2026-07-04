@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import { Metadata } from "next";
 import { ProductGrid } from "@/components/products/product-grid";
 import { ProductFilters } from "@/components/products/product-filters";
+import { UpcomingProductsCarousel } from "@/components/products/upcoming-products-carousel";
 import prisma from "@/lib/prisma";
 import type { ProductWithCategory } from "@/types";
 
@@ -21,7 +22,9 @@ async function getProducts(searchParams: { [key: string]: string | string[] | un
     isActive: true,
   };
 
-  if (categorySlug) {
+  if (categorySlug === "proximamente") {
+    where.isComingSoon = true;
+  } else if (categorySlug) {
     where.category = { slug: categorySlug };
   }
 
@@ -45,7 +48,7 @@ async function getProducts(searchParams: { [key: string]: string | string[] | un
         category: true,
       },
     });
-    return products as ProductWithCategory[];
+    return JSON.parse(JSON.stringify(products)) as ProductWithCategory[];
   } catch (error) {
     console.warn("Failed to fetch products:", error);
     return [];
@@ -61,29 +64,37 @@ export default async function CatalogPage({
   const products = await getProducts(params);
 
   return (
-    <div className="bg-warm-50 min-h-screen pb-16">
+    <div className="bg-[#FAF8F5] min-h-screen pb-16">
       
-      {/* Minimal Header */}
-      <div className="relative bg-stone-50 pt-24 pb-12 px-4 border-b border-warm-100">
+      {/* Editorial Header (Margen optimizado y Copy Emocional) */}
+      <div className="relative bg-[#FAF8F5] pt-14 sm:pt-20 pb-6 sm:pb-8 px-4 border-b border-[#e8e6dd]/60">
         <div className="container-narrow relative z-10 text-center">
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-warm-900 font-serif tracking-wide mb-4">
-            Catálogo de <span className="italic font-light">Productos</span>
+          <span className="text-[10px] sm:text-xs font-mono uppercase tracking-[0.2em] text-[#C5A059] block mb-1.5 font-bold">
+            CURADURÍA BOTÁNICA & TERAPÉUTICA
+          </span>
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-[#2C402E] font-serif tracking-tight mb-2 sm:mb-3 leading-tight">
+            Nuestra Colección de <span className="italic font-normal">Calma y Relajación</span>
           </h1>
-          <p className="text-base md:text-lg text-warm-500 max-w-2xl mx-auto font-light">
-            Descubre nuestra colección premium de bienestar. Encuentra el balance perfecto para tu día a día.
+          <p className="text-xs sm:text-sm md:text-base text-[#5e574c] max-w-xl mx-auto font-light leading-relaxed">
+            Herramientas esenciales diseñadas para apagar el ruido diario, restaurar tu energía y elevar el santuario de tu hogar.
           </p>
         </div>
       </div>
 
-      <div className="container-narrow mt-12">
+      <div className="container-narrow mt-6 sm:mt-8 px-4 sm:px-6">
+        {/* Dynamic Coming Soon Carousel */}
+        <Suspense fallback={null}>
+          <UpcomingProductsCarousel />
+        </Suspense>
+
         {/* Horizontal Filters */}
         <ProductFilters />
 
         {/* Product Grid */}
         <div className="w-full">
-          <div className="mb-8 flex items-center justify-between border-b border-warm-200 pb-4">
-            <span className="text-sm font-medium text-warm-500 uppercase tracking-wider">
-              Mostrando <strong className="text-warm-900">{products.length}</strong> productos
+          <div className="mb-6 flex items-center justify-between border-b border-[#e8e6dd]/80 pb-3">
+            <span className="text-xs font-mono font-medium text-[#5e574c] uppercase tracking-wider">
+              Mostrando <strong className="text-[#2C402E] font-bold">{products.length}</strong> rituales
             </span>
           </div>
 

@@ -172,7 +172,7 @@ export default async function ProductDetailPage(props: PageProps) {
 
             {/* Actions */}
             <div className="flex flex-col gap-6 mb-12 bg-warm-50 p-6 md:p-8 rounded-[2rem] border border-warm-100">
-              <ProductActions product={product} isOutOfStock={isOutOfStock} />
+              <ProductActions product={JSON.parse(JSON.stringify(product))} isOutOfStock={isOutOfStock} />
               
               <div className="flex items-center justify-between text-sm">
                 <span className="text-warm-500 flex items-center gap-2">

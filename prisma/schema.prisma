@@ -28,6 +28,12 @@ enum OrderStatus {
   EN_CAMINO
   ENTREGADO
   CANCELADO
+  PENDING
+  PAID
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
 }
 
 enum PaymentMethod {
@@ -82,11 +88,35 @@ model User {
   reviews       Review[]
   cart          Cart?
   arcoRequests  ArcoRequest[]
+  addresses     Address[]
 
   @@index([supabaseUid])
   @@index([email])
   @@index([role])
   @@map("users")
+}
+
+// ============================================================================
+// ADDRESS — Libreta de Direcciones del Usuario
+// ============================================================================
+
+model Address {
+  id          String   @id @default(cuid())
+  userId      String   @map("user_id")
+  street      String                           // calle/avenida
+  district    String                           // distrito
+  reference   String?                          // referencia
+  phone       String?                          // celular
+  isDefault   Boolean  @default(false) @map("is_default")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([isDefault])
+  @@map("addresses")
 }
 
 // ============================================================================
@@ -153,6 +183,7 @@ model Product {
   isNew           Boolean  @default(false) @map("is_new")
   isActive        Boolean  @default(true) @map("is_active")
   isFeatured      Boolean  @default(false) @map("is_featured") // Productos estrella
+  isComingSoon    Boolean  @default(false) @map("is_coming_soon") // Próximos lanzamientos
   weight          Decimal? @db.Decimal(8, 2)              // Peso en gramos (para envío)
   tags            String[]                                 // Tags para filtros y SEO
   createdAt       DateTime @default(now()) @map("created_at")
@@ -444,9 +475,12 @@ model Announcement {
 
 model StoreSettings {
   id           String   @id @default(cuid())
-  heroImageUrl String?  @map("hero_image_url")
-  heroTitle    String?  @map("hero_title")
-  heroSubtitle String?  @map("hero_subtitle")
+  heroImageUrl   String?  @map("hero_image_url")
+  heroTitle      String?  @map("hero_title")
+  heroSubtitle   String?  @map("hero_subtitle")
+  heroButtonText String?  @map("hero_button_text")
+  heroButtonLink String?  @map("hero_button_link")
+  heroBadgeText  String?  @map("hero_badge_text")
   
   // Promocional Modal
   promoModalActive Boolean @default(false) @map("promo_modal_active")
@@ -454,6 +488,57 @@ model StoreSettings {
   promoModalTitle  String? @map("promo_modal_title")
   promoModalText   String? @map("promo_modal_text")
   promoModalLink   String? @map("promo_modal_link")
+
+  // Bento Grid (La Transformación)
+  bentoImage      String? @map("bento_image")
+  bentoTitle      String? @map("bento_title")
+  bentoSubtitle   String? @map("bento_subtitle")
+  bentoCard1Title String? @map("bento_card_1_title")
+  bentoCard1Desc  String? @map("bento_card_1_desc")
+  bentoCard1Image String? @map("bento_card_1_image")
+  bentoCard2Title String? @map("bento_card_2_title")
+  bentoCard2Desc  String? @map("bento_card_2_desc")
+  bentoCard2Image String? @map("bento_card_2_image")
+  bentoCard3Title String? @map("bento_card_3_title")
+  bentoCard3Desc  String? @map("bento_card_3_desc")
+  bentoCard3Image String? @map("bento_card_3_image")
+
+  // Nuestra Selección de Bienestar (Curaduría)
+  curatedTitle    String? @map("curated_title")
+  curatedSubtitle String? @map("curated_subtitle")
+  curated1Title   String? @map("curated_1_title")
+  curated1Desc    String? @map("curated_1_desc")
+  curated1Image   String? @map("curated_1_image")
+  curated2Title   String? @map("curated_2_title")
+  curated2Desc    String? @map("curated_2_desc")
+  curated2Image   String? @map("curated_2_image")
+  curated3Title   String? @map("curated_3_title")
+  curated3Desc    String? @map("curated_3_desc")
+  curated3Image   String? @map("curated_3_image")
+
+  // Split Layout (Manifiesto / Propósito)
+  purposeTitle    String? @map("purpose_title")
+  purposeSubtitle String? @map("purpose_subtitle")
+  purposeDesc     String? @map("purpose_desc")
+  purposeImage    String? @map("purpose_image")
+
+  // Split Layout Refactor (El Arte de Reconectar)
+  splitKicker      String? @map("split_kicker")
+  splitTitle       String? @map("split_title")
+  splitDescription String? @map("split_description") @db.Text
+  splitFooterLeft  String? @map("split_footer_left")
+  splitFooterRight String? @map("split_footer_right")
+  splitImageUrl    String? @map("split_image_url")
+  splitButtonText  String? @map("split_button_text")
+  splitButtonLink  String? @map("split_button_link")
+
+  // Nuestra Promesa (Estándares)
+  promise1Title   String? @map("promise_1_title")
+  promise1Desc    String? @map("promise_1_desc")
+  promise2Title   String? @map("promise_2_title")
+  promise2Desc    String? @map("promise_2_desc")
+  promise3Title   String? @map("promise_3_title")
+  promise3Desc    String? @map("promise_3_desc")
 
   updatedAt    DateTime @updatedAt @map("updated_at")
 

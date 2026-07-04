@@ -4,9 +4,11 @@ import {
   useEffect,
   useCallback,
   useRef,
+  useState,
   type ReactNode,
   type KeyboardEvent,
 } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -53,7 +55,12 @@ function Modal({
   size = "md",
   className,
 }: ModalProps) {
+  const [mounted, setMounted] = useState(false);
   const modalRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   /* Lock body scroll */
   useEffect(() => {
@@ -84,11 +91,13 @@ function Modal({
     }
   }, [open]);
 
-  return (
+  if (!mounted) return null;
+
+  return createPortal(
     <AnimatePresence>
       {open && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          className="fixed inset-0 z-[9999] flex items-center justify-center p-4"
           onKeyDown={handleKeyDown}
           role="dialog"
           aria-modal="true"
@@ -96,7 +105,7 @@ function Modal({
         >
           {/* Backdrop */}
           <motion.div
-            className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
             variants={backdropVariants}
             initial="hidden"
             animate="visible"
@@ -111,7 +120,7 @@ function Modal({
             ref={modalRef}
             tabIndex={-1}
             className={cn(
-              "relative z-10 flex w-full flex-col overflow-hidden rounded-2xl bg-card shadow-xl outline-none",
+              "relative z-10 flex w-full flex-col overflow-hidden rounded-3xl bg-white shadow-2xl outline-none border border-warm-200",
               sizeClasses[size],
               className,
             )}
@@ -123,16 +132,16 @@ function Modal({
           >
             {/* Header */}
             {title && (
-              <div className="flex items-center justify-between border-b border-border px-6 py-4">
-                <h2 className="text-lg font-semibold text-foreground">
+              <div className="flex items-center justify-between border-b border-warm-100 px-6 py-4 bg-warm-50/50">
+                <h2 className="text-lg font-bold text-[#2C402E] font-serif">
                   {title}
                 </h2>
                 <button
                   onClick={onClose}
                   className={cn(
                     "flex size-8 items-center justify-center rounded-lg",
-                    "text-muted-foreground transition-colors hover:bg-muted hover:text-foreground",
-                    "focus-visible:outline-2 focus-visible:outline-ring",
+                    "text-warm-400 transition-colors hover:bg-warm-100 hover:text-[#2C402E]",
+                    "focus-visible:outline-2 focus-visible:outline-ring cursor-pointer",
                   )}
                   aria-label="Cerrar modal"
                 >
@@ -146,14 +155,15 @@ function Modal({
 
             {/* Footer */}
             {footer && (
-              <div className="flex items-center justify-end gap-3 border-t border-border px-6 py-4">
+              <div className="flex items-center justify-end gap-3 border-t border-warm-100 px-6 py-4 bg-warm-50/30">
                 {footer}
               </div>
             )}
           </motion.div>
         </div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 }
 

@@ -1,7 +1,7 @@
-import type { Product, Category, Order, OrderItem, User, Review, Coupon, ShippingZone, District, OrderStatus, PaymentMethod, DiscountType } from '@prisma/client';
+import type { Product, Category, Order, OrderItem, User, Review, Coupon, ShippingZone, District, OrderStatus, PaymentMethod, DiscountType, Address } from '@prisma/client';
 
 // Re-export Prisma types
-export type { Product, Category, Order, OrderItem, User, Review, Coupon, ShippingZone, District, OrderStatus, PaymentMethod, DiscountType };
+export type { Product, Category, Order, OrderItem, User, Review, Coupon, ShippingZone, District, OrderStatus, PaymentMethod, DiscountType, Address };
 
 // Extended types with relations
 export type ProductWithCategory = Product & {

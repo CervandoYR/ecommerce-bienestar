@@ -123,7 +123,7 @@ export default async function CategoryPage(
                 Mostrando <strong className="text-warm-900">{products.length}</strong> productos
               </span>
             </div>
-            <ProductGrid products={products} />
+            <ProductGrid products={JSON.parse(JSON.stringify(products))} />
           </main>
         </div>
       </div>

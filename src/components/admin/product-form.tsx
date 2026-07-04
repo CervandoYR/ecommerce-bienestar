@@ -37,6 +37,7 @@ export function ProductForm({ initialData, categories }: ProductFormProps) {
     images: initialData?.images || [],
     isActive: initialData?.isActive ?? true,
     isFeatured: initialData?.isFeatured ?? false,
+    isComingSoon: initialData?.isComingSoon ?? false,
   });
 
   const [showPreview, setShowPreview] = useState(false);
@@ -247,6 +248,14 @@ export function ProductForm({ initialData, categories }: ProductFormProps) {
                       <div>
                         <p className="text-sm font-medium text-warm-900 dark:text-white group-hover:text-amber-600 transition-colors">Destacar Producto</p>
                         <p className="text-xs text-warm-500">Aparecerá con un badge especial de "MÁS VENDIDO".</p>
+                      </div>
+                    </label>
+
+                    <label className="flex items-center gap-3 cursor-pointer group">
+                      <input type="checkbox" name="isComingSoon" checked={formData.isComingSoon} onChange={handleChange} className="w-5 h-5 rounded text-purple-500 focus:ring-purple-500 border-warm-300" />
+                      <div>
+                        <p className="text-sm font-medium text-warm-900 dark:text-white group-hover:text-purple-600 transition-colors">Próximamente (Coming Soon)</p>
+                        <p className="text-xs text-warm-500">Deshabilita la compra y genera expectativa. Muestra "Avísame" en lugar del precio.</p>
                       </div>
                     </label>
                   </div>

@@ -7,6 +7,17 @@ export interface CartItem {
   quantity: number;
 }
 
+export const getCartTotal = (items: CartItem[] = []): number => {
+  return items.reduce(
+    (total, item) => total + Number(item?.product?.price || 0) * (item?.quantity || 0),
+    0
+  );
+};
+
+export const getCartCount = (items: CartItem[] = []): number => {
+  return items.reduce((total, item) => total + (item?.quantity || 0), 0);
+};
+
 interface CartState {
   items: CartItem[];
   isOpen: boolean;
@@ -30,7 +41,6 @@ export const useCart = create<CartState>()(
         const existingItem = currentItems.find((item) => item.product.id === product.id);
 
         if (existingItem) {
-          // Check stock before adding
           const newQuantity = Math.min(existingItem.quantity + quantity, product.stock);
           
           set({
@@ -74,19 +84,16 @@ export const useCart = create<CartState>()(
       setIsOpen: (isOpen) => set({ isOpen }),
 
       get cartTotal() {
-        return get().items.reduce(
-          (total, item) => total + Number(item.product.price) * item.quantity,
-          0
-        );
+        return getCartTotal(get().items);
       },
 
       get cartCount() {
-        return get().items.reduce((total, item) => total + item.quantity, 0);
+        return getCartCount(get().items);
       },
     }),
     {
       name: "bienestar-cart-storage",
-      skipHydration: true, // We will manually hydrate to avoid hydration mismatch
+      skipHydration: true,
     }
   )
 );

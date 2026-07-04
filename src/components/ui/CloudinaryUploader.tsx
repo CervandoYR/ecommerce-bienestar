@@ -9,9 +9,10 @@ interface CloudinaryUploaderProps {
   onUploadSuccess: (url: string) => void;
   folder?: string;
   multiple?: boolean;
+  defaultImage?: any;
 }
 
-export function CloudinaryUploader({ onUploadSuccess, folder = "bienestar-store", multiple = false }: CloudinaryUploaderProps) {
+export function CloudinaryUploader({ onUploadSuccess, folder = "bienestar-store", multiple = false, defaultImage }: CloudinaryUploaderProps) {
   const [isUploading, setIsUploading] = useState(false);
   const [error, setError] = useState("");
 

@@ -7,7 +7,7 @@ export default async function AjustesPage() {
   const { data: settings } = await getStoreSettings();
 
   return (
-    <div className="animate-in fade-in duration-700 max-w-4xl mx-auto">
+    <div className="animate-in fade-in duration-700 max-w-[1600px] w-full mx-auto">
       <SettingsForm initialData={settings} />
     </div>
   );

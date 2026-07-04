@@ -1,6 +1,7 @@
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { CartDrawer } from "@/components/cart/cart-drawer";
+import { WishlistDrawer } from "@/components/wishlist/wishlist-drawer";
 import { PromoModal } from "@/components/ui/promo-modal";
 import { getStoreSettings } from "@/app/actions/settings";
 
@@ -16,6 +17,7 @@ export default async function ShopLayout({
       <Header />
       <main className="flex-1">{children}</main>
       <CartDrawer />
+      <WishlistDrawer />
       <Footer />
       {settings && (
         <PromoModal 

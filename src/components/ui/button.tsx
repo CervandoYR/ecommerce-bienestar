@@ -12,6 +12,8 @@ const variantClasses = {
     "bg-primary text-primary-foreground shadow-sm hover:bg-sage-600 dark:hover:bg-sage-400",
   secondary:
     "border border-border bg-transparent text-foreground hover:bg-secondary hover:text-secondary-foreground",
+  outline:
+    "border border-border bg-transparent text-foreground hover:bg-secondary hover:text-secondary-foreground",
   ghost:
     "bg-transparent text-foreground hover:bg-muted",
   destructive:
@@ -113,7 +115,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           </span>
         ) : null}
 
-        {children && <span>{children}</span>}
+        {children}
 
         {iconRight && !loading && (
           <span className="shrink-0" aria-hidden="true">
