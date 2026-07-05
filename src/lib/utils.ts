@@ -77,6 +77,11 @@ export function getDiscountPercentage(price: number | any, compareAtPrice: numbe
 }
 
 export function buildWhatsAppUrl(phone: string, message: string): string {
-  const encodedMessage = encodeURIComponent(message);
-  return `https://wa.me/${phone}?text=${encodedMessage}`;
+  // Limpiar caracteres problemáticos en WhatsApp (espacios irrompibles, guiones largos, emojis y pares subrogados que generan  en WhatsApp Web/Desktop)
+  const cleanMessage = message
+    .replace(/[\u00A0\u1680\u180e\u2000-\u2009\u200a\u200b\u202f\u205f\u3000]/g, " ")
+    .replace(/\u2014|\u2013/g, "-")
+    .replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]|\uD83C[\uDF00-\uDFFF]|\uD83D[\uDC00-\uDE4F]|\uD83D[\uDE80-\uDEF6]|\u2600-\u26FF|\u2700-\u27BF/g, "");
+  const encodedMessage = encodeURIComponent(cleanMessage);
+  return `https://api.whatsapp.com/send?phone=${phone}&text=${encodedMessage}`;
 }

@@ -331,6 +331,7 @@ model Order {
   // Notas
   customerNotes   String?       @map("customer_notes") @db.Text
   adminNotes      String?       @map("admin_notes") @db.Text
+  isArchived      Boolean       @default(false) @map("is_archived")
 
   createdAt       DateTime      @default(now()) @map("created_at")
   updatedAt       DateTime      @updatedAt @map("updated_at")
@@ -347,6 +348,7 @@ model Order {
   @@index([orderNumber])
   @@index([createdAt])
   @@index([paymentMethod])
+  @@index([isArchived])
   @@map("orders")
 }
 

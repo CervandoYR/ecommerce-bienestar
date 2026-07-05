@@ -8,7 +8,8 @@ export default async function PedidosPage() {
     orderBy: { createdAt: 'desc' },
     include: {
       user: true,
-      items: true
+      items: true,
+      district: true
     }
   });
 

@@ -86,7 +86,7 @@ export function ProductForm({ initialData, categories }: ProductFormProps) {
   const handleRemoveImage = (index: number) => {
     setFormData((prev) => ({
       ...prev,
-      images: prev.images.filter((_, i) => i !== index),
+      images: prev.images.filter((_: any, i: number) => i !== index),
     }));
   };
 
@@ -267,7 +267,7 @@ export function ProductForm({ initialData, categories }: ProductFormProps) {
                   
                   {formData.images.length > 0 && (
                     <div className="grid grid-cols-3 gap-2 mt-4">
-                      {formData.images.map((url, idx) => (
+                      {formData.images.map((url: string, idx: number) => (
                         <div key={idx} className="relative aspect-square rounded-lg overflow-hidden border border-warm-200 group">
                           <img src={url} alt="" className="w-full h-full object-cover" />
                           <button 

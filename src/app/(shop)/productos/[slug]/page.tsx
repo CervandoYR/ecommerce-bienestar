@@ -174,15 +174,22 @@ export default async function ProductDetailPage(props: PageProps) {
             <div className="flex flex-col gap-6 mb-12 bg-warm-50 p-6 md:p-8 rounded-[2rem] border border-warm-100">
               <ProductActions product={JSON.parse(JSON.stringify(product))} isOutOfStock={isOutOfStock} />
               
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-warm-500 flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                  Stock: <strong className="text-warm-900 font-semibold">{product.stock}</strong> u.
-                </span>
-                <span className="text-sage-700 font-semibold flex items-center gap-1">
-                  <Truck className="w-4 h-4" /> Envío a nivel nacional
-                </span>
-              </div>
+              {!product.isComingSoon ? (
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-warm-500 flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                    Stock: <strong className="text-warm-900 font-semibold">{product.stock}</strong> u.
+                  </span>
+                  <span className="text-sage-700 font-semibold flex items-center gap-1">
+                    <Truck className="w-4 h-4" /> Envío a nivel nacional
+                  </span>
+                </div>
+              ) : (
+                <div className="flex items-center justify-between text-xs font-mono tracking-wider text-[#71685a] uppercase pt-2 border-t border-warm-200/60">
+                  <span>✨ Edición Limitada en Curaduría</span>
+                  <span className="text-[#C5A059] font-bold">Reserva VIP Abierta</span>
+                </div>
+              )}
             </div>
 
             {/* Accordions */}

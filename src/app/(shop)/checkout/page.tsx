@@ -178,21 +178,21 @@ export default function CheckoutPage() {
       if (paymentMethod === "WHATSAPP") {
         // Build formatted WhatsApp message
         let message = `*¡Hola Samay Munay! Quiero confirmar mi pedido #${orderRes.orderNumber}*\n\n`;
-        message += `*Mis datos de entrega:*\n`;
-        message += `👤 Nombre: ${formData.name}\n`;
-        message += `📞 Teléfono: ${formData.phone}\n`;
-        if (formData.documentId) message += `📄 DNI/RUC: ${formData.documentId}\n`;
-        message += `📍 Dirección: ${formData.address}, ${formData.district}\n`;
-        if (formData.reference) message += `🏷️ Referencia: ${formData.reference}\n`;
+        message += `*MIS DATOS DE ENTREGA:*\n`;
+        message += `• Nombre: ${formData.name}\n`;
+        message += `• Teléfono: ${formData.phone}\n`;
+        if (formData.documentId) message += `• DNI/RUC: ${formData.documentId}\n`;
+        message += `• Dirección: ${formData.address}, ${formData.district}\n`;
+        if (formData.reference) message += `• Referencia: ${formData.reference}\n`;
         if (formData.location) {
-          message += `🌐 GPS: https://www.google.com/maps?q=${formData.location.lat},${formData.location.lng}\n`;
+          message += `• GPS: https://www.google.com/maps?q=${formData.location.lat},${formData.location.lng}\n`;
         }
-        message += `\n*Resumen del Pedido:*\n`;
+        message += `\n*RESUMEN DEL PEDIDO:*\n`;
         items.forEach((item) => {
-          message += `• ${item.quantity}x ${item.product.name} — ${formatPrice(Number(item.product.price) * item.quantity)}\n`;
+          message += `• ${item.quantity}x ${item.product.name} - ${formatPrice(Number(item.product.price) * item.quantity)}\n`;
         });
-        message += `\n*TOTAL A PAGAR:* ${formatPrice(calculatedTotal)}\n\n`;
-        message += `Quisiera coordinar el método de pago por transferencia / Yape / Plin. ¡Gracias! ✨`;
+        message += `\n*TOTAL A PAGAR: ${formatPrice(calculatedTotal)}*\n\n`;
+        message += `Quisiera coordinar el método de pago por transferencia / Yape / Plin. ¡Muchas gracias!`;
 
         const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "51999999999";
         const url = buildWhatsAppUrl(whatsappNumber, message);

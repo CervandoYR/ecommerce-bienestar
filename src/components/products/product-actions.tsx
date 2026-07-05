@@ -1,12 +1,13 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { ShoppingBag, Heart } from "lucide-react";
+import { ShoppingBag, Heart, Sparkles, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/store/useCart";
 import { useWishlist } from "@/store/useWishlist";
 import { useToast } from "@/components/ui/toast";
-import { cn } from "@/lib/utils";
+import { cn, buildWhatsAppUrl } from "@/lib/utils";
+import { WHATSAPP_NUMBER } from "@/lib/constants";
 import type { Product } from "@/types";
 
 export function ProductActions({ product, isOutOfStock }: { product: Product, isOutOfStock: boolean }) {
@@ -20,6 +21,39 @@ export function ProductActions({ product, isOutOfStock }: { product: Product, is
   }, []);
 
   const isFavorite = mounted ? isInWishlist(product.id) : false;
+
+  if (product.isComingSoon) {
+    const notifyUrl = buildWhatsAppUrl(
+      WHATSAPP_NUMBER,
+      `Hola Samay Munay, me gustaría estar en la lista de espera prioritaria para cuando esté disponible: *${product.name}*`
+    );
+    return (
+      <div className="p-6 rounded-2xl bg-[#2C402E] text-[#FAF8F5] border border-[#C5A059]/40 space-y-4 shadow-lg">
+        <div className="flex items-center justify-between">
+          <span className="text-xs font-mono font-bold uppercase tracking-[0.2em] text-[#C5A059] flex items-center gap-1.5">
+            <Clock className="w-3.5 h-3.5" /> PRÓXIMO RITUAL
+          </span>
+          <span className="px-3 py-1 rounded-full bg-white/10 text-[10px] font-mono text-white tracking-wide">
+            En Curaduría
+          </span>
+        </div>
+        <p className="text-sm font-light text-[#FAF8F5]/90 leading-relaxed">
+          Este producto de bienestar está en fase final de preparación artesanal y muy pronto formará parte de nuestra colección oficial.
+        </p>
+        <div className="pt-2 flex flex-col sm:flex-row gap-3">
+          <Button
+            asChild
+            className="w-full bg-[#C5A059] hover:bg-[#b08d4b] text-[#2C402E] font-bold py-5 rounded-xl shadow-md transition-all duration-300"
+          >
+            <a href={notifyUrl} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2">
+              <Sparkles className="w-4 h-4" />
+              <span>Avísame por WhatsApp (Acceso VIP)</span>
+            </a>
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   if (isOutOfStock) {
     return (

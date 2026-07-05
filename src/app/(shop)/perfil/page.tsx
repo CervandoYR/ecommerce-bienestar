@@ -13,6 +13,8 @@ import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { getUserDashboardData } from "@/app/actions/profile";
 import { ProfileSummary } from "@/components/profile/profile-summary";
+import { buildWhatsAppUrl } from "@/lib/utils";
+import { WHATSAPP_NUMBER } from "@/lib/constants";
 import { OrderHistory } from "@/components/profile/order-history";
 import { AddressManager } from "@/components/profile/address-manager";
 import ProfileEditor from "@/components/profile/profile-editor";
@@ -262,7 +264,7 @@ export default function ProfilePage() {
                 className="w-full bg-white text-[#2C402E] hover:bg-white/80 border border-gold-300/80 font-bold shadow-xs text-xs h-9"
               >
                 <a
-                  href={`https://wa.me/51999999999?text=${encodeURIComponent(`Hola Samay Munay, soy ${displayName} y quisiera consultarte sobre mis pedidos/cuenta.`)}`}
+                  href={buildWhatsAppUrl(WHATSAPP_NUMBER, `Hola Samay Munay, soy ${displayName} y quisiera consultarte sobre mis pedidos/cuenta.`)}
                   target="_blank"
                   rel="noopener noreferrer"
                 >

@@ -1,22 +1,32 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState, useTransition, useEffect, Suspense } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { registerUser, loginWithGoogle } from "@/app/actions/auth";
 import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
+import { Loader2, AlertCircle } from "lucide-react";
 import { motion } from "framer-motion";
+import { translateAuthError } from "@/lib/auth-errors";
 
-export default function RegisterPage() {
+function RegisterFormContent() {
+  const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    const urlError = searchParams?.get("error_description") || searchParams?.get("error") || searchParams?.get("message");
+    if (urlError) {
+      setError(translateAuthError(urlError));
+    }
+  }, [searchParams]);
 
   const handleEmailRegister = async (formData: FormData) => {
     setError("");
     startTransition(async () => {
       const res = await registerUser(formData);
       if (res?.error) {
-        setError(res.error);
+        setError(translateAuthError(res.error));
       }
     });
   };
@@ -26,7 +36,7 @@ export default function RegisterPage() {
     startTransition(async () => {
       const res = await loginWithGoogle();
       if (res?.error) {
-        setError(res.error);
+        setError(translateAuthError(res.error));
       }
     });
   };
@@ -46,9 +56,14 @@ export default function RegisterPage() {
       </div>
 
       {error && (
-        <div className="p-4 mb-6 bg-red-50 border border-red-100 text-red-600 rounded-xl text-sm font-medium animate-pulse">
-          {error}
-        </div>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="p-4 mb-6 bg-red-50/90 border border-red-200 text-red-700 rounded-2xl text-sm font-medium flex items-start gap-3 shadow-xs"
+        >
+          <AlertCircle className="w-5 h-5 shrink-0 text-red-600 mt-0.5" />
+          <span className="leading-relaxed">{error}</span>
+        </motion.div>
       )}
 
       <form action={handleEmailRegister} className="space-y-6">
@@ -188,5 +203,13 @@ export default function RegisterPage() {
         </p>
       </div>
     </motion.div>
+  );
+}
+
+export default function RegisterPage() {
+  return (
+    <Suspense fallback={<div className="flex justify-center py-20"><Loader2 className="w-8 h-8 animate-spin text-sage-600" /></div>}>
+      <RegisterFormContent />
+    </Suspense>
   );
 }

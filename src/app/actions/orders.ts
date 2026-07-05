@@ -145,3 +145,32 @@ export async function createOrder(data: {
   }
 }
 
+export async function archiveOrder(id: string, isArchived: boolean) {
+  try {
+    const order = await prisma.order.update({
+      where: { id },
+      data: { isArchived }
+    });
+
+    revalidatePath("/admin/pedidos");
+    revalidatePath("/(shop)/perfil");
+    return { success: true, order: JSON.parse(JSON.stringify(order)) };
+  } catch (error: any) {
+    return { error: "No se pudo actualizar el estado de archivo del pedido: " + error.message };
+  }
+}
+
+export async function deleteOrderPermanently(id: string) {
+  try {
+    await prisma.orderItem.deleteMany({ where: { orderId: id } });
+    await prisma.orderStatusHistory.deleteMany({ where: { orderId: id } });
+    await prisma.order.delete({ where: { id } });
+
+    revalidatePath("/admin/pedidos");
+    revalidatePath("/(shop)/perfil");
+    return { success: true };
+  } catch (error: any) {
+    return { error: "No se pudo eliminar el pedido permanentemente: " + error.message };
+  }
+}
+

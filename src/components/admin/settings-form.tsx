@@ -259,21 +259,21 @@ export function SettingsForm({ initialData }: { initialData: any }) {
             </div>
 
             <div className="grid sm:grid-cols-2 gap-6 pt-4 border-t border-warm-100 dark:border-warm-800/40">
-              <div className="space-y-3 p-4 rounded-2xl bg-warm-50/50 dark:bg-warm-800/20 border border-warm-200">
+              <div className="space-y-3 p-4 rounded-2xl bg-warm-50/50 dark:bg-warm-800/20 border border-warm-200 dark:border-warm-700">
                 <span className="text-xs font-bold font-mono text-[#C5A059]">02 // TARJETA SUEÑO</span>
                 <input 
                   type="text"
                   value={formData.bentoCard2Title}
                   onChange={(e) => setFormData({ ...formData, bentoCard2Title: e.target.value })}
                   placeholder="Sueño Ininterrumpido"
-                  className="w-full px-3 py-1.5 bg-white dark:bg-warm-900 border border-warm-200 rounded-lg text-xs font-semibold"
+                  className="w-full px-3 py-1.5 bg-white dark:bg-warm-900/90 border border-warm-200 dark:border-warm-700 rounded-lg text-xs font-semibold text-warm-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#C5A059]"
                 />
                 <textarea 
                   rows={2}
                   value={formData.bentoCard2Desc}
                   onChange={(e) => setFormData({ ...formData, bentoCard2Desc: e.target.value })}
                   placeholder="Difusor Ultrasónico + Aceite..."
-                  className="w-full px-3 py-1.5 bg-white dark:bg-warm-900 border border-warm-200 rounded-lg text-xs resize-none"
+                  className="w-full px-3 py-1.5 bg-white dark:bg-warm-900/90 border border-warm-200 dark:border-warm-700 rounded-lg text-xs text-warm-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#C5A059] resize-none"
                 />
                 <CloudinaryUploader
                   folder="ecommerce-bienestar/settings/bento"
@@ -282,21 +282,21 @@ export function SettingsForm({ initialData }: { initialData: any }) {
                 />
               </div>
 
-              <div className="space-y-3 p-4 rounded-2xl bg-warm-50/50 dark:bg-warm-800/20 border border-warm-200">
+              <div className="space-y-3 p-4 rounded-2xl bg-warm-50/50 dark:bg-warm-800/20 border border-warm-200 dark:border-warm-700">
                 <span className="text-xs font-bold font-mono text-[#C5A059]">03 // TARJETA ALIVIO</span>
                 <input 
                   type="text"
                   value={formData.bentoCard3Title}
                   onChange={(e) => setFormData({ ...formData, bentoCard3Title: e.target.value })}
                   placeholder="Alivio Inmediato"
-                  className="w-full px-3 py-1.5 bg-white dark:bg-warm-900 border border-warm-200 rounded-lg text-xs font-semibold"
+                  className="w-full px-3 py-1.5 bg-white dark:bg-warm-900/90 border border-warm-200 dark:border-warm-700 rounded-lg text-xs font-semibold text-warm-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#C5A059]"
                 />
                 <textarea 
                   rows={2}
                   value={formData.bentoCard3Desc}
                   onChange={(e) => setFormData({ ...formData, bentoCard3Desc: e.target.value })}
                   placeholder="Set Terapéutico x6 Aceites..."
-                  className="w-full px-3 py-1.5 bg-white dark:bg-warm-900 border border-warm-200 rounded-lg text-xs resize-none"
+                  className="w-full px-3 py-1.5 bg-white dark:bg-warm-900/90 border border-warm-200 dark:border-warm-700 rounded-lg text-xs text-warm-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#C5A059] resize-none"
                 />
                 <CloudinaryUploader
                   folder="ecommerce-bienestar/settings/bento"
@@ -339,21 +339,21 @@ export function SettingsForm({ initialData }: { initialData: any }) {
             </div>
 
             <div className="grid md:grid-cols-3 gap-4 pt-2">
-              <div className="space-y-3 p-4 rounded-2xl bg-warm-50/50 dark:bg-warm-800/20 border border-warm-200">
+              <div className="space-y-3 p-4 rounded-2xl bg-warm-50/50 dark:bg-warm-800/20 border border-warm-200 dark:border-warm-700">
                 <span className="text-xs font-bold font-mono text-[#C5A059]">01 // TERAPIA TÉRMICA</span>
                 <input 
                   type="text" 
                   value={formData.curated1Title}
                   onChange={(e) => setFormData({ ...formData, curated1Title: e.target.value })}
                   placeholder="Terapia Térmica"
-                  className="w-full px-3 py-1.5 bg-white dark:bg-warm-900 border border-warm-200 rounded-lg text-xs font-semibold"
+                  className="w-full px-3 py-1.5 bg-white dark:bg-warm-900/90 border border-warm-200 dark:border-warm-700 rounded-lg text-xs font-semibold text-warm-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#C5A059]"
                 />
                 <textarea 
                   rows={3}
                   value={formData.curated1Desc}
                   onChange={(e) => setFormData({ ...formData, curated1Desc: e.target.value })}
                   placeholder="Compresas calientes..."
-                  className="w-full px-3 py-1.5 bg-white dark:bg-warm-900 border border-warm-200 rounded-lg text-xs resize-none"
+                  className="w-full px-3 py-1.5 bg-white dark:bg-warm-900/90 border border-warm-200 dark:border-warm-700 rounded-lg text-xs text-warm-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#C5A059] resize-none"
                 />
                 <CloudinaryUploader
                   folder="ecommerce-bienestar/curated"
@@ -362,21 +362,21 @@ export function SettingsForm({ initialData }: { initialData: any }) {
                 />
               </div>
 
-              <div className="space-y-3 p-4 rounded-2xl bg-warm-50/50 dark:bg-warm-800/20 border border-warm-200">
+              <div className="space-y-3 p-4 rounded-2xl bg-warm-50/50 dark:bg-warm-800/20 border border-warm-200 dark:border-warm-700">
                 <span className="text-xs font-bold font-mono text-[#C5A059]">02 // AROMATERAPIA</span>
                 <input 
                   type="text" 
                   value={formData.curated2Title}
                   onChange={(e) => setFormData({ ...formData, curated2Title: e.target.value })}
                   placeholder="Aromaterapia Pura"
-                  className="w-full px-3 py-1.5 bg-white dark:bg-warm-900 border border-warm-200 rounded-lg text-xs font-semibold"
+                  className="w-full px-3 py-1.5 bg-white dark:bg-warm-900/90 border border-warm-200 dark:border-warm-700 rounded-lg text-xs font-semibold text-warm-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#C5A059]"
                 />
                 <textarea 
                   rows={3}
                   value={formData.curated2Desc}
                   onChange={(e) => setFormData({ ...formData, curated2Desc: e.target.value })}
                   placeholder="Aceites esenciales puros..."
-                  className="w-full px-3 py-1.5 bg-white dark:bg-warm-900 border border-warm-200 rounded-lg text-xs resize-none"
+                  className="w-full px-3 py-1.5 bg-white dark:bg-warm-900/90 border border-warm-200 dark:border-warm-700 rounded-lg text-xs text-warm-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#C5A059] resize-none"
                 />
                 <CloudinaryUploader
                   folder="ecommerce-bienestar/curated"
@@ -385,21 +385,21 @@ export function SettingsForm({ initialData }: { initialData: any }) {
                 />
               </div>
 
-              <div className="space-y-3 p-4 rounded-2xl bg-warm-50/50 dark:bg-warm-800/20 border border-warm-200">
+              <div className="space-y-3 p-4 rounded-2xl bg-warm-50/50 dark:bg-warm-800/20 border border-warm-200 dark:border-warm-700">
                 <span className="text-xs font-bold font-mono text-[#C5A059]">03 // AMBIENTES</span>
                 <input 
                   type="text" 
                   value={formData.curated3Title}
                   onChange={(e) => setFormData({ ...formData, curated3Title: e.target.value })}
                   placeholder="Ambientes Serenos"
-                  className="w-full px-3 py-1.5 bg-white dark:bg-warm-900 border border-warm-200 rounded-lg text-xs font-semibold"
+                  className="w-full px-3 py-1.5 bg-white dark:bg-warm-900/90 border border-warm-200 dark:border-warm-700 rounded-lg text-xs font-semibold text-warm-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#C5A059]"
                 />
                 <textarea 
                   rows={3}
                   value={formData.curated3Desc}
                   onChange={(e) => setFormData({ ...formData, curated3Desc: e.target.value })}
                   placeholder="Difusores ultrasónicos..."
-                  className="w-full px-3 py-1.5 bg-white dark:bg-warm-900 border border-warm-200 rounded-lg text-xs resize-none"
+                  className="w-full px-3 py-1.5 bg-white dark:bg-warm-900/90 border border-warm-200 dark:border-warm-700 rounded-lg text-xs text-warm-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#C5A059] resize-none"
                 />
                 <CloudinaryUploader
                   folder="ecommerce-bienestar/curated"
@@ -424,59 +424,59 @@ export function SettingsForm({ initialData }: { initialData: any }) {
               <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-3">
                   <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-warm-700 uppercase tracking-wider">Kicker</label>
+                    <label className="text-xs font-semibold text-warm-700 dark:text-warm-300 uppercase tracking-wider">Kicker</label>
                     <input 
                       type="text" 
                       value={formData.splitKicker}
                       onChange={(e) => setFormData({ ...formData, splitKicker: e.target.value })}
-                      className="w-full px-3 py-2 bg-warm-50/80 border border-warm-200 rounded-xl text-xs font-bold"
+                      className="w-full px-3 py-2 bg-warm-50/80 dark:bg-warm-900/80 border border-warm-200 dark:border-warm-700 rounded-xl text-xs font-bold text-warm-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#C5A059]"
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-warm-700 uppercase tracking-wider">Botón CTA</label>
+                    <label className="text-xs font-semibold text-warm-700 dark:text-warm-300 uppercase tracking-wider">Botón CTA</label>
                     <input 
                       type="text" 
                       value={formData.splitButtonText}
                       onChange={(e) => setFormData({ ...formData, splitButtonText: e.target.value })}
-                      className="w-full px-3 py-2 bg-warm-50/80 border border-warm-200 rounded-xl text-xs font-bold"
+                      className="w-full px-3 py-2 bg-warm-50/80 dark:bg-warm-900/80 border border-warm-200 dark:border-warm-700 rounded-xl text-xs font-bold text-warm-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#C5A059]"
                     />
                   </div>
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-warm-700 uppercase tracking-wider">Título Principal Serif</label>
+                  <label className="text-xs font-semibold text-warm-700 dark:text-warm-300 uppercase tracking-wider">Título Principal Serif</label>
                   <input 
                     type="text" 
                     value={formData.splitTitle}
                     onChange={(e) => setFormData({ ...formData, splitTitle: e.target.value })}
-                    className="w-full px-4 py-2 bg-warm-50/80 border border-warm-200 rounded-xl text-sm"
+                    className="w-full px-4 py-2 bg-warm-50/80 dark:bg-warm-900/80 border border-warm-200 dark:border-warm-700 rounded-xl text-sm text-warm-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#C5A059]"
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-warm-700 uppercase tracking-wider">Descripción de Curaduría</label>
+                  <label className="text-xs font-semibold text-warm-700 dark:text-warm-300 uppercase tracking-wider">Descripción de Curaduría</label>
                   <textarea 
                     rows={4}
                     value={formData.splitDescription}
                     onChange={(e) => setFormData({ ...formData, splitDescription: e.target.value })}
-                    className="w-full px-4 py-2 bg-warm-50/80 border border-warm-200 rounded-xl text-sm resize-none"
+                    className="w-full px-4 py-2 bg-warm-50/80 dark:bg-warm-900/80 border border-warm-200 dark:border-warm-700 rounded-xl text-sm text-warm-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#C5A059] resize-none"
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-3">
                   <div className="space-y-1">
-                    <label className="text-[11px] font-semibold text-warm-600">Footer Izquierdo</label>
+                    <label className="text-[11px] font-semibold text-warm-600 dark:text-warm-400">Footer Izquierdo</label>
                     <input 
                       type="text" 
                       value={formData.splitFooterLeft}
                       onChange={(e) => setFormData({ ...formData, splitFooterLeft: e.target.value })}
-                      className="w-full px-3 py-1.5 bg-warm-50 border border-warm-200 rounded-lg text-xs"
+                      className="w-full px-3 py-1.5 bg-warm-50/80 dark:bg-warm-900/80 border border-warm-200 dark:border-warm-700 rounded-lg text-xs text-warm-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#C5A059]"
                     />
                   </div>
                   <div className="space-y-1">
-                    <label className="text-[11px] font-semibold text-warm-600">Footer Derecho</label>
+                    <label className="text-[11px] font-semibold text-warm-600 dark:text-warm-400">Footer Derecho</label>
                     <input 
                       type="text" 
                       value={formData.splitFooterRight}
                       onChange={(e) => setFormData({ ...formData, splitFooterRight: e.target.value })}
-                      className="w-full px-3 py-1.5 bg-warm-50 border border-warm-200 rounded-lg text-xs"
+                      className="w-full px-3 py-1.5 bg-warm-50/80 dark:bg-warm-900/80 border border-warm-200 dark:border-warm-700 rounded-lg text-xs text-warm-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#C5A059]"
                     />
                   </div>
                 </div>
@@ -507,54 +507,54 @@ export function SettingsForm({ initialData }: { initialData: any }) {
             </div>
 
             <div className="grid md:grid-cols-3 gap-4">
-              <div className="space-y-3 p-4 rounded-2xl bg-warm-50/50 dark:bg-warm-800/20 border border-warm-200">
+              <div className="space-y-3 p-4 rounded-2xl bg-warm-50/50 dark:bg-warm-800/20 border border-warm-200 dark:border-warm-700">
                 <span className="text-xs font-bold font-mono text-[#C5A059]">01 // PILAR 1</span>
                 <input 
                   type="text" 
                   value={formData.promise1Title}
                   onChange={(e) => setFormData({ ...formData, promise1Title: e.target.value })}
                   placeholder="Pureza Botánica"
-                  className="w-full px-3 py-1.5 bg-white dark:bg-warm-900 border border-warm-200 rounded-lg text-xs font-semibold"
+                  className="w-full px-3 py-1.5 bg-white dark:bg-warm-900/90 border border-warm-200 dark:border-warm-700 rounded-lg text-xs font-semibold text-warm-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#C5A059]"
                 />
                 <textarea 
                   rows={3}
                   value={formData.promise1Desc}
                   onChange={(e) => setFormData({ ...formData, promise1Desc: e.target.value })}
-                  className="w-full px-3 py-1.5 bg-white dark:bg-warm-900 border border-warm-200 rounded-lg text-xs resize-none"
+                  className="w-full px-3 py-1.5 bg-white dark:bg-warm-900/90 border border-warm-200 dark:border-warm-700 rounded-lg text-xs text-warm-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#C5A059] resize-none"
                 />
               </div>
 
-              <div className="space-y-3 p-4 rounded-2xl bg-warm-50/50 dark:bg-warm-800/20 border border-warm-200">
+              <div className="space-y-3 p-4 rounded-2xl bg-warm-50/50 dark:bg-warm-800/20 border border-warm-200 dark:border-warm-700">
                 <span className="text-xs font-bold font-mono text-[#C5A059]">02 // PILAR 2</span>
                 <input 
                   type="text" 
                   value={formData.promise2Title}
                   onChange={(e) => setFormData({ ...formData, promise2Title: e.target.value })}
                   placeholder="Grado Terapéutico"
-                  className="w-full px-3 py-1.5 bg-white dark:bg-warm-900 border border-warm-200 rounded-lg text-xs font-semibold"
+                  className="w-full px-3 py-1.5 bg-white dark:bg-warm-900/90 border border-warm-200 dark:border-warm-700 rounded-lg text-xs font-semibold text-warm-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#C5A059]"
                 />
                 <textarea 
                   rows={3}
                   value={formData.promise2Desc}
                   onChange={(e) => setFormData({ ...formData, promise2Desc: e.target.value })}
-                  className="w-full px-3 py-1.5 bg-white dark:bg-warm-900 border border-warm-200 rounded-lg text-xs resize-none"
+                  className="w-full px-3 py-1.5 bg-white dark:bg-warm-900/90 border border-warm-200 dark:border-warm-700 rounded-lg text-xs text-warm-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#C5A059] resize-none"
                 />
               </div>
 
-              <div className="space-y-3 p-4 rounded-2xl bg-warm-50/50 dark:bg-warm-800/20 border border-warm-200">
+              <div className="space-y-3 p-4 rounded-2xl bg-warm-50/50 dark:bg-warm-800/20 border border-warm-200 dark:border-warm-700">
                 <span className="text-xs font-bold font-mono text-[#C5A059]">03 // PILAR 3</span>
                 <input 
                   type="text" 
                   value={formData.promise3Title}
                   onChange={(e) => setFormData({ ...formData, promise3Title: e.target.value })}
                   placeholder="Entrega Local Exprés"
-                  className="w-full px-3 py-1.5 bg-white dark:bg-warm-900 border border-warm-200 rounded-lg text-xs font-semibold"
+                  className="w-full px-3 py-1.5 bg-white dark:bg-warm-900/90 border border-warm-200 dark:border-warm-700 rounded-lg text-xs font-semibold text-warm-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#C5A059]"
                 />
                 <textarea 
                   rows={3}
                   value={formData.promise3Desc}
                   onChange={(e) => setFormData({ ...formData, promise3Desc: e.target.value })}
-                  className="w-full px-3 py-1.5 bg-white dark:bg-warm-900 border border-warm-200 rounded-lg text-xs resize-none"
+                  className="w-full px-3 py-1.5 bg-white dark:bg-warm-900/90 border border-warm-200 dark:border-warm-700 rounded-lg text-xs text-warm-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#C5A059] resize-none"
                 />
               </div>
             </div>
@@ -584,21 +584,21 @@ export function SettingsForm({ initialData }: { initialData: any }) {
             <div className={`grid sm:grid-cols-2 gap-6 transition-opacity duration-300 ${!formData.promoModalActive ? 'opacity-40 pointer-events-none' : ''}`}>
               <div className="space-y-4">
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-warm-700 uppercase tracking-wider">Título del Modal</label>
+                  <label className="text-xs font-semibold text-warm-700 dark:text-warm-300 uppercase tracking-wider">Título del Modal</label>
                   <input 
                     type="text" 
                     value={formData.promoModalTitle}
                     onChange={(e) => setFormData({ ...formData, promoModalTitle: e.target.value })}
-                    className="w-full px-4 py-2 bg-warm-50/80 border border-warm-200 rounded-xl text-sm"
+                    className="w-full px-4 py-2 bg-warm-50/80 dark:bg-warm-900/80 border border-warm-200 dark:border-warm-700 rounded-xl text-sm text-warm-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#C5A059]"
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-warm-700 uppercase tracking-wider">Texto / Descripción</label>
+                  <label className="text-xs font-semibold text-warm-700 dark:text-warm-300 uppercase tracking-wider">Texto / Descripción</label>
                   <textarea 
                     rows={3}
                     value={formData.promoModalText}
                     onChange={(e) => setFormData({ ...formData, promoModalText: e.target.value })}
-                    className="w-full px-4 py-2 bg-warm-50/80 border border-warm-200 rounded-xl text-sm resize-none"
+                    className="w-full px-4 py-2 bg-warm-50/80 dark:bg-warm-900/80 border border-warm-200 dark:border-warm-700 rounded-xl text-sm text-warm-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#C5A059] resize-none"
                   />
                 </div>
               </div>
@@ -670,7 +670,7 @@ export function SettingsForm({ initialData }: { initialData: any }) {
           {/* Scaled Preview Container with Reactive State */}
           <div className="relative w-full h-[650px] sm:h-[760px] lg:h-[820px] rounded-3xl overflow-hidden border-2 border-[#C5A059]/40 shadow-2xl bg-[#FAF8F5]">
             <div className="w-full h-full overflow-y-auto overflow-x-hidden custom-scrollbar">
-              <div className="origin-top scale-[0.62] sm:scale-[0.72] lg:scale-[0.6] xl:scale-[0.7] w-[161%] sm:w-[138%] lg:w-[166%] xl:w-[142%] transition-transform duration-300 bg-[#FAF8F5] pb-32 text-[#2C402E]">
+              <div className="origin-top-left scale-[0.55] sm:scale-[0.68] lg:scale-[0.56] xl:scale-[0.68] w-[181%] sm:w-[147%] lg:w-[178%] xl:w-[147%] transition-transform duration-300 bg-[#FAF8F5] pb-32 text-[#2C402E]">
                 {(previewSection === "all" || previewSection === "hero") && (
                   <div className="border-b border-[#2C402E]/10">
                     <HeroSection settings={formData} title={formData.heroTitle} subtitle={formData.heroSubtitle} imageUrl={formData.heroImageUrl} />

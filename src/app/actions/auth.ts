@@ -3,6 +3,7 @@
 import { createClient } from "@/lib/supabase/server"
 import prisma from "@/lib/prisma"
 import { redirect } from "next/navigation"
+import { translateAuthError } from "@/lib/auth-errors"
 
 export async function registerUser(formData: FormData) {
   const name = formData.get("name") as string
@@ -29,7 +30,7 @@ export async function registerUser(formData: FormData) {
   })
 
   if (authError) {
-    return { error: authError.message }
+    return { error: translateAuthError(authError.message) }
   }
 
   if (!data.user) {
@@ -65,8 +66,9 @@ export async function loginWithGoogle() {
    })
    
    if (error) {
-     return { error: error.message }
+     return { error: translateAuthError(error.message) }
    }
+
    
    if (data?.url) {
      redirect(data.url)
